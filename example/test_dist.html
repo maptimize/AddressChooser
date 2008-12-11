@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>Basic example of Mapeed.AddressForm</title>
+  <script src="http://maps.google.com/jsapi" type="text/javascript"></script>
+	<script src="../dist/mapeed_address_widget.js" type="text/javascript"></script>
+  <link href="basic.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <form id='form' onsubmit='displayAddress(); return false;'>
+    <label for='street'>Street</label>
+    <input type='text' name='street' id='street' class='text'/>
+    
+    <label for='state'>State</label>
+    <input type='text' name='state' id='state' class='text'/>
+    
+    <label for='country'>Country</label>
+    <select  name='country' id='country'>
+      <option name='France'>France</option>
+      <option name='USA'>USA</option>
+    </select>
+    
+    <input type='submit' value='Save' id='submit'/>
+    
+    <input type='hidden' name='lat' id='lat'/>
+    <input type='hidden' name='lng' id='lng'/>
+  </form>
+  <div id='map_container'>
+    <div id='map'></div>
+    <input type='button' value='Display location on map' onclick='widget.updateMap();' id='view_on_map'/>
+  </div>
+
+  <script type='text/javascript'>
+    widget = new Mapeed.AddressForm.Widget();
+    
+    function displayAddress() {
+      alert(widget.getAddress())
+    }
+  </script>
+</body>
+</html>
