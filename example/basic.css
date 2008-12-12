@@ -15,6 +15,7 @@
 #form {
   float:left;
   margin: 0 2em 0 0;
+  width: 500px;
 }
 
 #form label {
@@ -40,4 +41,14 @@
   float:left;
   clear:left;
   margin: 1em 0 0 0;
+}
+
+#suggests { 
+  float:left;
+  width: 500px;
+  
+}
+#suggests a {
+  float:left;
+  width: 100%;
 }

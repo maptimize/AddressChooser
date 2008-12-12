@@ -1,10 +1,30 @@
+/**
+ *  == proxy ==
+ *  The proxy section
+**/
+
 // Namespace
 if (typeof Mapeed == 'undefined') {
   Mapeed = {};
 }
 Mapeed.Proxy = {};
 
-// Proxy object to google map
+/** section: proxy
+ *  class Mapeed.Proxy.GoogleMap
+ *
+ * Proxy class to handle Google Map API
+ *  
+ **/
+
+
+ /** 
+  *  new Mapeed.Proxy.GoogleMap(element, callback, context)
+  *  - element (Element): element used to create GMap2 object
+  *  - callback (Function): callback called when map is ready
+  *  - context (Object): context for calling callback
+  *  
+  *  Creates a new Mapeed.Proxy.GoogleMap used by Mapeed.Address.Plugin
+  **/
 Mapeed.Proxy.GoogleMap = function(element, callback, context) {
   var self = this;
   
@@ -47,12 +67,34 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     this.geocoder.getLocations(address.join(', '), 
                                function(response){_onGeocodingCompleted(response, callback, context)});
   }
-    
+   
+   // Return map (GMap2) object
+  function getMap() {
+    return this.map;
+  } 
+  
+  // Returns address of a placemark
+  function getAddress(placemark) {
+    return placemark.address;
+  }
+   
+  // Returns latitude of a placemark
+  function getLat(placemark) {
+    return placemark.Point.coordinates[1];
+  }
+   
+  // Returns longitude of a placemark
+  function getLng(placemark) {
+    return placemark.Point.coordinates[0];
+  }
+   
   function showPlacemark(placemark, showAddress) {
-    var latLng = new GLatLng(placemark.lat, placemark.lng)
-        zoom   = 17;
-    if (placemark.accuracy < 7) zoom = 10;
-    if (placemark.accuracy < 5) zoom = 5;
+    var latLng   = new GLatLng(placemark.Point.coordinates[1], placemark.Point.coordinates[0])
+        accuracy = placemark.AddressDetails.Accuracy,
+        zoom     = 8;
+    if (accuracy >= 9)       zoom = 17;
+    else if (accuracy >= 6 ) zoom = 14;
+    else if (accuracy >= 4)  zoom = 12;
     this.map.setCenter(latLng, zoom);
     
     if (this.gmarker) {
@@ -68,15 +110,9 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
   
   function _onGeocodingCompleted(response, callback, context) {
-    // Placemark found
+    // Placemark(s) found
     if (response.Status.code == 200) {
-      var placemarks = [];
-      for (var i=0; i < response.Placemark.length; i++) {
-        var p = response.Placemark[i];
-        placemarks.push({lat: p.Point.coordinates[1], lng: p.Point.coordinates[0], 
-                         address: p.address, accuracy: p.AddressDetails.Accuracy});
-      }
-      callback.call(context, placemarks);
+      callback.call(context, response.Placemark);
     }
     // Placemark not found
     else {
@@ -87,7 +123,12 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   return {
     addEventListener:    addEventListener,
     removeEventListener: removeEventListener,
+    getMap:              getMap,
     getPlacemarks:       getPlacemarks,
-    showPlacemark:       showPlacemark
+    showPlacemark:       showPlacemark,
+    
+    getAddress:          getAddress,
+    getLat:              getLat,
+    getLng:              getLng
   }
 })();

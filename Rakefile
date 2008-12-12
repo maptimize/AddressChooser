@@ -10,7 +10,7 @@ task :doc do
   
   output_directory    = 'doc'
   templates_directory = File.join('lib', 'pdoc_templates', 'html')
-  javascript_files    = File.join('src', '**', '*.js')
+  javascript_files    = File.join('src', '**', 'googlemap.js')
   
   FileUtils.rm_rf(output_directory)
   FileUtils.mkdir_p(output_directory)
