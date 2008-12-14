@@ -5,14 +5,14 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-	<title>Basic example of Mapeed.AddressForm</title>
+	<title>Autocomplete with script.aculo.us example of Mapeed.AddressChooser</title>
   <script src="http://maps.google.com/jsapi" type="text/javascript"></script>
 	<script src="prototype/prototype.js" type="text/javascript"></script>
 	<script src="prototype/effects.js" type="text/javascript"></script>
 	<script src="prototype/controls.js" type="text/javascript"></script>
 	
 	<script src="../src/googlemap.js" type="text/javascript"></script>
-	<script src="../src/address_form.js" type="text/javascript"></script>
+	<script src="../src/address_chooser.js" type="text/javascript"></script>
   <link href="basic.css" media="screen" rel="stylesheet" type="text/css" />
   <link href="prototype/autocomplete.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
@@ -44,7 +44,7 @@
   </div>
 
   <script type='text/javascript'>
-      widget = new Mapeed.AddressForm.Widget()
+      widget = new Mapeed.AddressChooser.Widget()
         .onSuggestsChanged(onSuggestsChanged)
         .onInitialized(onInitialized);
   

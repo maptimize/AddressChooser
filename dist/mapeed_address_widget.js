@@ -96,10 +96,10 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
 if (typeof Mapeed == 'undefined') {
   Mapeed = {};
 }
-Mapeed.AddressForm = {};
+Mapeed.AddressChooser = {};
 
 // Utility function to get DOM element 
-Mapeed.AddressForm.$element = function $element(element) {
+Mapeed.AddressChooser.$element = function $element(element) {
   if (element instanceof Element) {
     return element;
   }
@@ -109,8 +109,8 @@ Mapeed.AddressForm.$element = function $element(element) {
 }
 
 
-// Default options for AddressForm Widget
-Mapeed.AddressForm.DefaultOptions = { map:             'map',
+// Default options for AddressChooser Widget
+Mapeed.AddressChooser.DefaultOptions = { map:             'map',
                                       street:          'street',
                                       city:            'city',
                                       state:           'state',
@@ -123,8 +123,8 @@ Mapeed.AddressForm.DefaultOptions = { map:             'map',
                                       mapProxy:         Mapeed.Proxy.GoogleMap}
 
 // Constructor
-Mapeed.AddressForm.Widget = function(options) {
-  var $element = Mapeed.AddressForm.$element;
+Mapeed.AddressChooser.Widget = function(options) {
+  var $element = Mapeed.AddressChooser.$element;
  
   // Merge default options
   function $extend(destination, source) {
@@ -133,7 +133,7 @@ Mapeed.AddressForm.Widget = function(options) {
     return destination;
   }
   
-  this.options = $extend({}, Mapeed.AddressForm.DefaultOptions);
+  this.options = $extend({}, Mapeed.AddressChooser.DefaultOptions);
   $extend(this.options, options);
 
   // Initialize proxy with init callback
@@ -142,8 +142,8 @@ Mapeed.AddressForm.Widget = function(options) {
 
 
 // Instance methods
-Mapeed.AddressForm.Widget.prototype = (function() {
-  var $element = Mapeed.AddressForm.$element,
+Mapeed.AddressChooser.Widget.prototype = (function() {
+  var $element = Mapeed.AddressChooser.$element,
       addressKeys  = ['street', 'city', 'state', 'country'],
       locationKeys = ['lat', 'lng'];
       allKeys      = ['lat', 'lng', 'street', 'city', 'state', 'country'],

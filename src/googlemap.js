@@ -114,10 +114,12 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   function showPlacemark(placemark, showAddress, draggable) {
     var latLng   = new GLatLng(placemark.Point.coordinates[1], placemark.Point.coordinates[0])
         accuracy = placemark.AddressDetails.Accuracy,
-        zoom     = 8;
-    if (accuracy >= 9)       zoom = 17;
+        zoom = 1;
+    if      (accuracy >= 9)  zoom = 17;
     else if (accuracy >= 6 ) zoom = 14;
     else if (accuracy >= 4)  zoom = 12;
+    else if (accuracy >  1)  zoom = 6;
+    else                     zoom = 3;
     this.map.setCenter(latLng, zoom);
     
     if (this.gmarker) {

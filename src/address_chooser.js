@@ -2,10 +2,10 @@
 if (typeof Mapeed == 'undefined') {
   Mapeed = {};
 }
-Mapeed.AddressForm = {};
+Mapeed.AddressChooser = {};
 
 // Utility function to get DOM element 
-Mapeed.AddressForm.$element = function $element(element) {
+Mapeed.AddressChooser.$element = function $element(element) {
   if (element instanceof Element) {
     return element;
   }
@@ -14,32 +14,34 @@ Mapeed.AddressForm.$element = function $element(element) {
   }
 }
 
-Mapeed.AddressForm.$extend = function(destination, source) {
+// Utility function to copy property from source to destination object
+Mapeed.AddressChooser.$extend = function(destination, source) {
   for (var property in source)
     destination[property] = source[property];
   return destination;
 }
 
-// Default options for AddressForm Widget
-Mapeed.AddressForm.DefaultOptions = { map:             'map',
-                                      street:          'street',
-                                      city:            'city',
-                                      state:           'state',
-                                      country:         'country',
-                                      lat:             'lat',
-                                      lng:             'lng',
-                                      auto:             true,
-                                      delay:            1000,
-                                      showAddressOnMap: true,
-                                      markerDraggable:  true,
-                                      mapProxy:         Mapeed.Proxy.GoogleMap };
+// Default options for AddressChooser Widget
+Mapeed.AddressChooser.DefaultOptions = { map:             'map',
+                                         street:          'street',
+                                         zip:             'zip',
+                                         city:            'city',
+                                         state:           'state',
+                                         country:         'country',
+                                         lat:             'lat',
+                                         lng:             'lng',
+                                         auto:             true,
+                                         delay:            1000,
+                                         showAddressOnMap: true,
+                                         markerDraggable:  true,
+                                         mapProxy:         Mapeed.Proxy.GoogleMap };
                                       
 // Constructor
-Mapeed.AddressForm.Widget = function(options) {
-  var $element = Mapeed.AddressForm.$element,
-      $extend  = Mapeed.AddressForm.$extend;
+Mapeed.AddressChooser.Widget = function(options) {
+  var $element = Mapeed.AddressChooser.$element,
+      $extend  = Mapeed.AddressChooser.$extend;
    
-  this.options = $extend({}, Mapeed.AddressForm.DefaultOptions);
+  this.options = $extend({}, Mapeed.AddressChooser.DefaultOptions);
   $extend(this.options, options);
 
   this.callbacks = {
@@ -54,11 +56,11 @@ Mapeed.AddressForm.Widget = function(options) {
 
 
 // Instance methods
-Mapeed.AddressForm.Widget.prototype = (function() {
-  var $element = Mapeed.AddressForm.$element,
-      addressIDs  = ['street', 'city', 'state', 'country'],
+Mapeed.AddressChooser.Widget.prototype = (function() {
+  var $element = Mapeed.AddressChooser.$element,
+      addressIDs  = ['street', 'city', 'state', 'country', 'zip'],
       locationIDs = ['lat', 'lng'];
-      allIDs      = ['lat', 'lng', 'street', 'city', 'state', 'country'];
+      allIDs      = ['lat', 'lng', 'street', 'city', 'state', 'country', 'zip'];
   
   
   // Get event to listen for an element. INPUT and SELECT are allowed

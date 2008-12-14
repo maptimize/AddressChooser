@@ -29,8 +29,19 @@
   width: 100%;
 }
 
+#city {
+  float:left;
+  width: 100%;
+}
+
 #state {
   float:left;
+  width: 100%;
+}
+
+#zip {
+  float:left;
+  width: 100%;
 }
 
 #country {
