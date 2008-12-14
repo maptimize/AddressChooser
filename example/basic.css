@@ -46,9 +46,13 @@
 #suggests { 
   float:left;
   width: 500px;
-  
 }
+
 #suggests a {
   float:left;
   width: 100%;
+}
+
+.spinner {
+  background: url(spinner.gif) no-repeat top right;
 }

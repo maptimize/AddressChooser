@@ -14,8 +14,8 @@
 
 <body>
   <form id='form' onsubmit='displayAddress(); return false;'>
-    <label for='street'>Addrees</label>
-    <input type='text' name='street' id='street' class='text'/>
+    <label for='street'>Address</label>
+    <input type='text' name='street' id='street' class='text' autocomplete='off'/>
     <div id='suggests' style='display:none'>
     </div>
     <label for='country'>Country</label>
@@ -37,15 +37,21 @@
   <script type='text/javascript'>
     
     widget = new Mapeed.AddressForm.Widget()
-      .onSuggestChanged(onSuggestChanged)
+      .onSuggestsChanged(onSuggestsChanged)
+      .onSuggestSelected(onSuggestSelected)
       .onInitialized(onInitialized);
     
     function displayAddress() {
       alert(widget.getAddress())
     }
     
-    function onSuggestChanged(widget, nbSuggest) {
-      document.getElementById('suggests').style.display = nbSuggest > 1 ? 'block' : 'none';
+    function onSuggestsChanged(widget, nbSuggest) {
+      document.getElementById('suggests').style.display = 'block';
+    }
+    
+    function onSuggestSelected(widget, address) {
+      document.getElementById('street').value = address;
+      document.getElementById('suggests').style.display = 'none';
     }
     
     function onInitialized(widget) {

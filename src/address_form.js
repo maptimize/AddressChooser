@@ -14,6 +14,11 @@ Mapeed.AddressForm.$element = function $element(element) {
   }
 }
 
+Mapeed.AddressForm.$extend = function(destination, source) {
+  for (var property in source)
+    destination[property] = source[property];
+  return destination;
+}
 
 // Default options for AddressForm Widget
 Mapeed.AddressForm.DefaultOptions = { map:             'map',
@@ -21,35 +26,28 @@ Mapeed.AddressForm.DefaultOptions = { map:             'map',
                                       city:            'city',
                                       state:           'state',
                                       country:         'country',
-                                      suggests:        'suggests',
                                       lat:             'lat',
                                       lng:             'lng',
                                       auto:             true,
                                       delay:            1000,
                                       showAddressOnMap: true,
-                                      markerDraggable:  false,
+                                      markerDraggable:  true,
                                       mapProxy:         Mapeed.Proxy.GoogleMap };
-
+                                      
 // Constructor
 Mapeed.AddressForm.Widget = function(options) {
-  var $element = Mapeed.AddressForm.$element;
- 
-  // Merge default options
-  function $extend(destination, source) {
-    for (var property in source)
-      destination[property] = source[property];
-    return destination;
-  }
-  
+  var $element = Mapeed.AddressForm.$element,
+      $extend  = Mapeed.AddressForm.$extend;
+   
   this.options = $extend({}, Mapeed.AddressForm.DefaultOptions);
   $extend(this.options, options);
 
   this.callbacks = {
-    onSuggestChanged:  function(){},
-    onInitialized:     function(){}
+    onSuggestsChanged:  function(){},
+    onInitialized:      function(){}
   };
+  this.placemarks = [];
     
-
   // Initialize proxy with init callback
   this.mapProxy = new this.options.mapProxy($element(this.options.map), this.initialize, this);
 };
@@ -60,7 +58,7 @@ Mapeed.AddressForm.Widget.prototype = (function() {
   var $element = Mapeed.AddressForm.$element,
       addressIDs  = ['street', 'city', 'state', 'country'],
       locationIDs = ['lat', 'lng'];
-      allIDs      = ['lat', 'lng', 'street', 'city', 'state', 'country', 'suggests'];
+      allIDs      = ['lat', 'lng', 'street', 'city', 'state', 'country'];
   
   
   // Get event to listen for an element. INPUT and SELECT are allowed
@@ -102,7 +100,7 @@ Mapeed.AddressForm.Widget.prototype = (function() {
     
     // Connect event listener for auto mode
     if (options.auto) {
-      var callback = function() {this.updateMap(this.options.delay)};
+      var callback = function(event) {this.updateMap(event, this.options.delay)};
       for (var i = addressIDs.length-1; i>=0; --i) {
         var k = addressIDs[i];
         if (this[k]) this.mapProxy.addEventListener(this[k], eventForElement(this[k]), this, callback);
@@ -112,7 +110,12 @@ Mapeed.AddressForm.Widget.prototype = (function() {
   }
   
   // Update map with current address
-  function updateMap(delay) {
+  function updateMap(event, delay) {
+    if (event) {
+      // Do not handle keys like arrows, escape... just accept delete/backspace
+      var key = event.keyCode;
+      if (key >0 && key != 8 && key != 46) return;
+    }
     if (delay) {
       var self = this;
       if (this.timeout) clearTimeout(this.timeout);
@@ -120,11 +123,11 @@ Mapeed.AddressForm.Widget.prototype = (function() {
       this.timeout = setTimeout(function() {self.updateMap()}, delay);
     }
     else
-      this.mapProxy.getPlacemarks(this.getAddress(), _placemarksReceived, this);
+      this.mapProxy.getPlacemarks(this.getCurrentAddress(), _placemarksReceived, this);
   }
       
   // Returns current address fields
-  function getAddress() {
+  function getCurrentAddress() {
     var address = [];
 
     for (var i = addressIDs.length-1; i>=0; --i) {
@@ -147,8 +150,8 @@ Mapeed.AddressForm.Widget.prototype = (function() {
     return this.mapProxy.getMap();
   }
   
-  function onSuggestChanged(callback) {
-    this.callbacks.onSuggestChanged = callback;
+  function onSuggestsChanged(callback) {
+    this.callbacks.onSuggestsChanged = callback;
     return this;
   }
   
@@ -160,35 +163,31 @@ Mapeed.AddressForm.Widget.prototype = (function() {
   // Callback when placemarks are found
   function _placemarksReceived(placemarks) {
     if (placemarks) {
-      if (placemarks.length > 1 && this.suggests) {
-        this.suggests.innerHTML = '';
-        for (var i = 0; i < placemarks.length; i++) {
-          var p   = placemarks[i],
-             link = createLink(this.mapProxy.getAddress(p));
-             
-          link.p = p;
-          this.suggests.appendChild(link);
-          this.mapProxy.addEventListener(link, 'click', this, _selectPlacemark);
-        }
-        this.callbacks.onSuggestChanged(this, placemarks.length);
-      }
-      this.mapProxy.showPlacemark(placemarks[0], this.options.showAddressOnMap);
+      this.callbacks.onSuggestsChanged(this, placemarks);
+
+      this.mapProxy.showPlacemark(placemarks[0], this.options.showAddressOnMap, this.options.markerDraggable);
       this.lat.value = this.mapProxy.getLat(placemarks[0]);
       this.lng.value = this.mapProxy.getLng(placemarks[0]);
     }
   }
   
-  function _selectPlacemark(event) {
-    this.mapProxy.showPlacemark(event.target.p, this.options.showAddressOnMap);
+  function _delegateToProxy(method) {
+    return function(placemark) {return this.mapProxy[method](placemark)}
   }
-
+  
   return {
-    initialize:         initialize,
-    updateMap:          updateMap,
-    getAddress:         getAddress,
-    getMap:             getMap,
-    getMapProxy:        getMapProxy,
-    onInitialized:      onInitialized,
-    onSuggestChanged:   onSuggestChanged
+    initialize:            initialize,
+    updateMap:             updateMap,
+    getCurrentAddress:     getCurrentAddress,
+    getMap:                getMap,
+    getMapProxy:           getMapProxy,
+    onInitialized:         onInitialized,
+    onSuggestsChanged:     onSuggestsChanged,
+    
+    getCity:               _delegateToProxy('getCity'),
+    getCountry:            _delegateToProxy('getCountry'),
+    getZIP:                _delegateToProxy('getZIP'),
+    getStreet:             _delegateToProxy('getStreet'),
+    getAddress:            _delegateToProxy('getAddress')
   }
 })();

@@ -78,6 +78,26 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     return placemark.address;
   }
    
+  // Returns city of a placemark
+  function getCity(placemark) {
+    return _getPlacemarkAttribute(placemark, 'LocalityName');
+  }
+
+  // Returns country of a placemark
+  function getCountry(placemark) {
+    return _getPlacemarkAttribute(placemark, 'CountryName');
+  }
+    
+  // Returns ZIP (postal code) of a placemark
+  function getZIP(placemark) {
+    return _getPlacemarkAttribute(placemark, 'PostalCodeName');
+  }
+  
+  // Returns street (address without zip, city, country) of a placemark
+  function getStreet(placemark) {
+    return _getPlacemarkAttribute(placemark, 'ThoroughfareName');
+  }
+ 
   // Returns latitude of a placemark
   function getLat(placemark) {
     return placemark.Point.coordinates[1];
@@ -88,7 +108,10 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     return placemark.Point.coordinates[0];
   }
    
-  function showPlacemark(placemark, showAddress) {
+  // Displays placemark of the map
+  // -showPlacemark (Boolean): display address on the map
+  // -draggable (Boolean): make the marker draggable to adjust position on the map
+  function showPlacemark(placemark, showAddress, draggable) {
     var latLng   = new GLatLng(placemark.Point.coordinates[1], placemark.Point.coordinates[0])
         accuracy = placemark.AddressDetails.Accuracy,
         zoom     = 8;
@@ -101,14 +124,24 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
       this.gmarker.setLatLng(latLng);
     }
     else {
-      this.gmarker = new GMarker(latLng);
+      this.gmarker = new GMarker(latLng, {draggable: true});
+      GEvent.bind(this.gmarker, 'dragstart', this, _startMarkerDrag);
+      GEvent.bind(this.gmarker, 'dragend', this, _endMarkerDrag);
       this.map.addOverlay(this.gmarker);
     }
     
+    if (draggable) {
+      this.gmarker.enableDragging();
+    }
+    else {
+      this.gmarker.disableDragging();
+    }
+      
     if (showAddress)
       this.gmarker.openInfoWindowHtml(placemark.address.split(',').join('<br/>'));
   }
   
+  // Intern callback when geocoding has been done (should have placemarks)
   function _onGeocodingCompleted(response, callback, context) {
     // Placemark(s) found
     if (response.Status.code == 200) {
@@ -120,15 +153,50 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     }
   }
   
-  return {
-    addEventListener:    addEventListener,
-    removeEventListener: removeEventListener,
-    getMap:              getMap,
-    getPlacemarks:       getPlacemarks,
-    showPlacemark:       showPlacemark,
+  // Intern callback when marker dragging starts (close info window)
+  function _startMarkerDrag() {
+    this.gmarker.closeInfoWindow();
+  }
+  
+  // Intern callback when marker dragging ends, 
+  function _endMarkerDrag(latLng) {
+    // TODO: notify latLng
+  }
+
+  // Parses placemark object as Google do not provide any API for that.
+  // Information is inside placemark subfield but depends on accuracy, so we need to parse all tree 
+  // to get information
+  // Returns null if not found
+  function _getPlacemarkAttribute(placemark, field) {
+    for (f in placemark) {
+      if (f == field) {
+        return placemark[f];
+      }
+      else {
+        if (typeof placemark[f] == 'object') {
+          return _getPlacemarkAttribute(placemark[f], field);
+        }
+      }
+    }
+    return '';
+  }  
+  
+  // Publish public API
+  return {                
+    addEventListener:      addEventListener,
+    removeEventListener:   removeEventListener,
+    getMap:                getMap,
+    getPlacemarks:         getPlacemarks,
+    showPlacemark:         showPlacemark,
+
+    getLat:                getLat,
+    getLng:                getLng,
+                          
+    getAddress:            getAddress,
     
-    getAddress:          getAddress,
-    getLat:              getLat,
-    getLng:              getLng
+    getCity:               getCity,
+    getCountry:            getCountry,
+    getZIP:                getZIP,
+    getStreet:             getStreet
   }
 })();
