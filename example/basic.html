@@ -29,6 +29,10 @@
     <p>
       Location search is sent to Google while you are typing (in fact you stop typing for one second) and display automatically on the map.
     <p>
+    <p>
+      This version does not handle google suggestions. Check out examples with autocomplete based on Prototype or jQuery.
+      Keep in mind that you do not need a framework to handle google suggestions.
+    </p>
   </div>
   
   <div id="address_chooser">
@@ -82,7 +86,8 @@
       
     // Focus first field
     document.getElementById('street').focus();
-    
+    document.getElementById('submit').disabled = true;
+
     function displayAddress() {
       var text = widget.getCurrentAddress(),
           lat = document.getElementById('lat'),
@@ -97,7 +102,6 @@
       else {
         text += 'No location found'
       }
-      alert(text);
     }
         
     // If you want to customized your map, add code in onInitialized callback
@@ -107,10 +111,12 @@
     }
     
     function onSuggestsSearch(widget) {
+      document.getElementById('submit').disabled = true;
       document.getElementById('big_spinner').style.display = 'block';
     }
 
     function onSuggestsFound(widget, placemarks) {
+      document.getElementById('submit').disabled = !placemarks || placemarks.length == 0;
       document.getElementById('big_spinner').style.display = 'none';
     }
     

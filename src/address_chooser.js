@@ -31,7 +31,7 @@ Mapeed.AddressChooser.DefaultOptions = { map:             'map',
                                          lat:             'lat',
                                          lng:             'lng',
                                          auto:             true,
-                                         delay:            1000,
+                                         delay:            300,
                                          showAddressOnMap: true,
                                          markerDraggable:  true,
                                          mapProxy:         Mapeed.Proxy.GoogleMap };

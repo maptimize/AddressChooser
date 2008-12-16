@@ -18,49 +18,79 @@
 </head>
 
 <body>
-  <form id='form' onsubmit='displayAddress(); return false;'>
-    <label for='street'>Street</label>
-    <input type='text' name='street' id='street' class='text' autocomplete='off'/>
-    <div id='suggests' class='auto_complete' style='display:none'>
-    </div>
+  <div id="header">
+    <h1>Mapeed.AddressChooser / Basic example</h1>
+  </div>
+  <div id='container'>
+    <p>
+      This example uses Mapeed.AddressChooser.Widget with Prototype/Scriptaculous framework.
+      Address is an autocomplete field filled by addresses returns by Google Map:
+    </p>
+    <ul>
+      <li>Default options</li>
+      <li>Callback on <em>onInitialized</em> to add maps controls</li>
+      <li>Callback on <em>onSuggestsSearch</em> to display spinner on address field</li>
+      <li>Callback on <em>onSuggestsFound</em> to remove spinner on address field and fill autocomplete</li>
+    </ul>
+    <p>
+      Location search is sent to Google while you are typing (in fact you stop typing for one second) and display automatically on the map.
+    <p>
+  </div>
+  
+  <div id="address_chooser">
+  
+    <form id='form' onsubmit='displayAddress(); return false;'>
+      <label for='street'>Address</label>
+      <input type='text' name='street' id='street' class='text' autocomplete='off'/>
+      <div id='suggests' class='auto_complete' style='display:none'>
+      </div>
 
-    <label for='city'>City</label>
-    <input type='text' name='city' id='city' class='text' autocomplete='off'/>
+      <label for='country'>Country</label>
+      <select  name='country' id='country'>
+        <option value='France'>France</option>
+        <option value='USA'>USA</option>
+      </select>
     
-    <label for='country'>Country</label>
-    <select  name='country' id='country'>
-      <option value='France'>France</option>
-      <option value='USA'>USA</option>
-    </select>
+      <input type='submit' value='Save' id='submit'/>
     
-    <input type='submit' value='Save' id='submit'/>
-    
-    <input type='hidden' name='lat' id='lat'/>
-    <input type='hidden' name='lng' id='lng'/>
-  </form>
-  <div id='map_container'>
-    <div id='map'></div>
-    You can drag the marker to place it to the current location
+      <input type='hidden' name='lat' id='lat'/>
+      <input type='hidden' name='lng' id='lng'/>
+    </form>
+    <div id='map_container'>
+      <div id='map'></div>
+      You can drag the marker to place it to the current location
+    </div>
+  <div class="clear"></div>
+  </div>
+
+  <div id='footer'>
+    Under MIT licence - Provided by <a href='http://www.mapeed.com'>Mapeed</a>
   </div>
 
   <script type='text/javascript'>
       widget = new Mapeed.AddressChooser.Widget()
         .onSuggestsFound(onSuggestsFound)
+        .onSuggestsSearch(onSuggestsSearch)
         .onInitialized(onInitialized);
   
       // Create a local autocomplete without data. Data will be added dynamically according to map suggestions
-      var autocomplete = new Autocompleter.Local('street', 'suggests', [], {updateElement: updateElement});
+      var autocomplete = new Autocompleter.Local('street', 'suggests', [], {afterUpdateElement: afterUpdateElement});
       
       function displayAddress() {
-        //alert(widget.getCurrentAddress())
+        alert(widget.getCurrentAddress());
       }
   
-      function updateElement(element, selectedElement) {
-        console.log(autocomplete)
+      function afterUpdateElement() {
+        console.log($('street').value);
       }
       
       // Callback on suggest change
       function onSuggestsFound(widget, placemarks) {
+        $('submit').enable();
+        $('street').removeClassName('spinner');
+        $('street').focus();
+        
+        
         // Reset autocomplete suggestions to new placemarks
         autocomplete.options.array.clear()
         for (var i = 0; i < placemarks.length; i++) {
@@ -68,6 +98,12 @@
         }
         // For autocomplete update
         autocomplete.getUpdatedChoices();
+        autocomplete.show();
+      }
+  
+      function onSuggestsSearch(widget) {
+        $('street').addClassName('spinner');
+        $('submit').disable();
       }
   
       function onInitialized(widget) {
@@ -76,6 +112,8 @@
       }
     
       $('street').focus();
+      $('submit').disable();
+      
   </script>
 </body>
 </html>
