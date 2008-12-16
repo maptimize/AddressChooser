@@ -191,27 +191,35 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     else                     zoom = 3;
     this.map.setCenter(latLng, zoom);
     
-    if (this.gmarker) {
-      this.gmarker.setLatLng(latLng);
+    if (this.marker) {
+      this.marker.setLatLng(latLng);
+      this.marker.show();
     }
     else {
-      this.gmarker = new GMarker(latLng, {draggable: true});
-      GEvent.bind(this.gmarker, 'dragstart', this, _startMarkerDrag);
-      GEvent.bind(this.gmarker, 'dragend', this, _endMarkerDrag);
-      this.map.addOverlay(this.gmarker);
+      this.marker = new GMarker(latLng, {draggable: true});
+      GEvent.bind(this.marker, 'dragstart', this, _startMarkerDrag);
+      GEvent.bind(this.marker, 'dragend', this, _endMarkerDrag);
+      this.map.addOverlay(this.marker);
     }
 
     this.draggableCallback = draggableCallback;
     this.draggableContext  = draggableContext;
     if (draggableCallback) {
-      this.gmarker.enableDragging();
+      this.marker.enableDragging();
     }
     else {
-      this.gmarker.disableDragging();
+      this.marker.disableDragging();
     }
       
     if (showAddress)
-      this.gmarker.openInfoWindowHtml(placemark.address.split(',').join('<br/>'));
+      this.marker.openInfoWindowHtml(placemark.address.split(',').join('<br/>'));
+  }
+  
+  function hidePlacemark() {
+    if (this.marker) {
+      this.marker.closeInfoWindow();
+      this.marker.hide();
+    }
   }
   
   // Intern callback when geocoding has been done (should have placemarks)
@@ -228,7 +236,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   
   // Intern callback when marker dragging starts (close info window)
   function _startMarkerDrag() {
-    this.gmarker.closeInfoWindow();
+    this.marker.closeInfoWindow();
   }
   
   // Intern callback when marker dragging ends, 
@@ -261,6 +269,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     getMap:                getMap,
     getPlacemarks:         getPlacemarks,
     showPlacemark:         showPlacemark,
+    hidePlacemark:         hidePlacemark,
 
     getLat:                getLat,
     getLng:                getLng,

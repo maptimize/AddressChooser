@@ -183,6 +183,12 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
       this.lat.value = this.mapProxy.getLat(placemarks[0]);
       this.lng.value = this.mapProxy.getLng(placemarks[0]);
     }
+    else {
+      this.lat.value = '';
+      this.lng.value = '';
+      
+      this.mapProxy.hidePlacemark();
+    }
     this.callbacks.onSuggestsFound(this, placemarks);
   }
   

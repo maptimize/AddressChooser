@@ -103,6 +103,7 @@
     // If you want to customized your map, add code in onInitialized callback
     function onInitialized(widget) {
       widget.getMap().addControl(new GSmallMapControl());
+      widget.updateMap();
     }
     
     function onSuggestsSearch(widget) {
