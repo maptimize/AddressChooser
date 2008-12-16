@@ -45,8 +45,9 @@ Mapeed.AddressChooser.Widget = function(options) {
   $extend(this.options, options);
 
   this.callbacks = {
-    onSuggestsChanged:  function(){},
-    onInitialized:      function(){}
+    onSuggestsSearch: function(){},
+    onSuggestsFound:  function(){},
+    onInitialized:    function(){}
   };
   this.placemarks = [];
     
@@ -124,8 +125,10 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
       
       this.timeout = setTimeout(function() {self.updateMap()}, delay);
     }
-    else
+    else {
+      this.callbacks.onSuggestsSearch(this);
       this.mapProxy.getPlacemarks(this.getCurrentAddress(), _placemarksReceived, this);
+    }
   }
       
   // Returns current address fields
@@ -152,8 +155,13 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     return this.mapProxy.getMap();
   }
   
-  function onSuggestsChanged(callback) {
-    this.callbacks.onSuggestsChanged = callback;
+  function onSuggestsFound(callback) {
+    this.callbacks.onSuggestsFound = callback;
+    return this;
+  }
+  
+  function onSuggestsSearch(callback) {
+    this.callbacks.onSuggestsSearch = callback;
     return this;
   }
   
@@ -165,31 +173,42 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
   // Callback when placemarks are found
   function _placemarksReceived(placemarks) {
     if (placemarks) {
-      this.callbacks.onSuggestsChanged(this, placemarks);
-
-      this.mapProxy.showPlacemark(placemarks[0], this.options.showAddressOnMap, this.options.markerDraggable);
+      if (this.options.markerDraggable) {
+        this.mapProxy.showPlacemark(placemarks[0], this.options.showAddressOnMap, _markerDragEnd, this);
+      }
+      else {
+        this.mapProxy.showPlacemark(placemarks[0], this.options.showAddressOnMap);
+      }
+      
       this.lat.value = this.mapProxy.getLat(placemarks[0]);
       this.lng.value = this.mapProxy.getLng(placemarks[0]);
     }
+    this.callbacks.onSuggestsFound(this, placemarks);
   }
   
-  function _delegateToProxy(method) {
+  function _delegateToMapProxy(method) {
     return function(placemark) {return this.mapProxy[method](placemark)}
   }
   
+  function _markerDragEnd(lat, lng) {
+    this.lat.value = lat;
+    this.lng.value = lng;
+  }
+  
   return {
-    initialize:            initialize,
-    updateMap:             updateMap,
-    getCurrentAddress:     getCurrentAddress,
-    getMap:                getMap,
-    getMapProxy:           getMapProxy,
-    onInitialized:         onInitialized,
-    onSuggestsChanged:     onSuggestsChanged,
-    
-    getCity:               _delegateToProxy('getCity'),
-    getCountry:            _delegateToProxy('getCountry'),
-    getZIP:                _delegateToProxy('getZIP'),
-    getStreet:             _delegateToProxy('getStreet'),
-    getAddress:            _delegateToProxy('getAddress')
+    initialize:         initialize,
+    updateMap:          updateMap,
+    getCurrentAddress:  getCurrentAddress,
+    getMap:             getMap,
+    getMapProxy:        getMapProxy,
+    onInitialized:      onInitialized,
+    onSuggestsSearch:   onSuggestsSearch,
+    onSuggestsFound:    onSuggestsFound,
+                       
+    getCity:            _delegateToMapProxy('getCity'),
+    getCountry:         _delegateToMapProxy('getCountry'),
+    getZIP:             _delegateToMapProxy('getZIP'),
+    getStreet:          _delegateToMapProxy('getStreet'),
+    getAddress:         _delegateToMapProxy('getAddress')
   }
 })();

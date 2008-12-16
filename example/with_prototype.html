@@ -45,7 +45,7 @@
 
   <script type='text/javascript'>
       widget = new Mapeed.AddressChooser.Widget()
-        .onSuggestsChanged(onSuggestsChanged)
+        .onSuggestsFound(onSuggestsFound)
         .onInitialized(onInitialized);
   
       // Create a local autocomplete without data. Data will be added dynamically according to map suggestions
@@ -60,7 +60,7 @@
       }
       
       // Callback on suggest change
-      function onSuggestsChanged(widget, placemarks) {
+      function onSuggestsFound(widget, placemarks) {
         // Reset autocomplete suggestions to new placemarks
         autocomplete.options.array.clear()
         for (var i = 0; i < placemarks.length; i++) {

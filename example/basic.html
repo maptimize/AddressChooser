@@ -6,7 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 	<title>Simple Example of Mapeed.AddressChooser</title>
-  <script src="http://maps.google.com/jsapi" type="text/javascript"></script>
+  <script src="http://maps.google.com/jsapi?key=ABQIAAAAPvuQxAHKdvs2AzUcIgAydBSQYJiLK5kLII1Jz3pe91PmWwG1FBQw5tPSjakIvA8TWMllIeMTDIBOMw" type="text/javascript"></script>
 	<script src="../src/googlemap.js" type="text/javascript"></script>
 	<script src="../src/address_chooser.js" type="text/javascript"></script>
   <link href="basic.css" media="screen" rel="stylesheet" type="text/css" />
@@ -15,8 +15,22 @@
 <body>
   <div id="header">
     <h1>Mapeed.AddressChooser / Basic example</h1>
-    This example does not used any Javascriopt frameworks.
   </div>
+  <div id='container'>
+    <p>
+      This example uses Mapeed.AddressChooser.Widget without any Javascript frameworks and with:
+    </p>
+    <ul>
+      <li>Default options</li>
+      <li>Callback on <em>onInitialized</em> to add maps controls</li>
+      <li>Callback on <em>onSuggestsSearch</em> to display spinner over the map</li>
+      <li>Callback on <em>onSuggestsFound</em> to remove spinner over the map</li>
+    </ul>
+    <p>
+      Location search is sent to Google while you are typing (in fact you stop typing for one second) and display automatically on the map.
+    <p>
+  </div>
+  
   <div id="address_chooser">
     <form id='form' onsubmit='displayAddress(); return false;'>
       <label for='street'>Street</label>
@@ -39,31 +53,64 @@
       </select>
     
       <input type='submit' value='Save' id='submit'/>
-    
       <input type='hidden' name='lat' id='lat'/>
       <input type='hidden' name='lng' id='lng'/>
     </form>
-  
+
+    
     <div id='map_container'>
+      <div id="big_spinner" style="display:none"></div>
       <div id='map'></div>
       <div id='map_tooltip'>
         drag marker to fix location
       </div>
     </div>
+
     <div class="clear"></div>
+  </div>
+  
+  <div id='footer'>
+    Under MIT licence - Provided by <a href='http://www.mapeed.com'>Mapeed</a>
   </div>
   <script type='text/javascript'>
     
-    widget = new Mapeed.AddressChooser.Widget().onInitialized(onInitialized);
+    // Create widhet with default options and set callbacks
+    widget = new Mapeed.AddressChooser.Widget()
+      .onInitialized(onInitialized)
+      .onSuggestsSearch(onSuggestsSearch)
+      .onSuggestsFound(onSuggestsFound);
+      
+    // Focus first field
     document.getElementById('street').focus();
     
     function displayAddress() {
-      alert(widget.getAddress())
+      var text = widget.getCurrentAddress(),
+          lat = document.getElementById('lat'),
+          lng = document.getElementById('lng');
+      
+      if (lat.value) {
+        text += '\n'
+        text += 'latitude : ' + document.getElementById('lat').value;
+        text += '\n'
+        text += 'longitude : ' + document.getElementById('lng').value;
+      }
+      else {
+        text += 'No location found'
+      }
+      alert(text);
     }
         
     // If you want to customized your map, add code in onInitialized callback
     function onInitialized(widget) {
       widget.getMap().addControl(new GSmallMapControl());
+    }
+    
+    function onSuggestsSearch(widget) {
+      document.getElementById('big_spinner').style.display = 'block';
+    }
+
+    function onSuggestsFound(widget, placemarks) {
+      document.getElementById('big_spinner').style.display = 'none';
     }
     
   </script>

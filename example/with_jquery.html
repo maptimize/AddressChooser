@@ -42,14 +42,14 @@
   <script type='text/javascript'>
     
     widget = new Mapeed.AddressChooser.Widget()
-      .onSuggestsChanged(onSuggestsChanged)
+      .onSuggestsFound(onSuggestsFound)
       .onInitialized(onInitialized);
   
     function displayAddress() {
       alert(widget.getCurentAddress())
     }
   
-    function onSuggestsChanged(widget, placemarks) {
+    function onSuggestsFound(widget, placemarks) {
       var data = [];
       for (var i = 0; i < placemarks.length; i++) {
         data.push([widget.getAddress(placemarks[i]), placemarks[i]]);

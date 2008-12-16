@@ -175,11 +175,12 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
    *  Mapeed.Proxy.GoogleMap#showPlacemark(placemark, showAddress, draggable) -> null
    *  - placemark (Object): object representing google map placemark (get by calling getPlacemarks)
    *  - showAddress (Boolean): display address on the map (inside an info window)
-   *  - draggable (Boolean): make the marker draggable to adjust position on the map.
+   *  - draggableCallback (Function): callback called when marker has benn drgged. Callback will received lat and lng as arguments
+   *  - draggableContext (Object): calling context for draggableCallback
    *  
    *  Displays placemark of the map.
    **/
-  function showPlacemark(placemark, showAddress, draggable) {
+  function showPlacemark(placemark, showAddress, draggableCallback, draggableContext) {
     var latLng   = new GLatLng(placemark.Point.coordinates[1], placemark.Point.coordinates[0])
         accuracy = placemark.AddressDetails.Accuracy,
         zoom = 1;
@@ -199,8 +200,10 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
       GEvent.bind(this.gmarker, 'dragend', this, _endMarkerDrag);
       this.map.addOverlay(this.gmarker);
     }
-    
-    if (draggable) {
+
+    this.draggableCallback = draggableCallback;
+    this.draggableContext  = draggableContext;
+    if (draggableCallback) {
       this.gmarker.enableDragging();
     }
     else {
@@ -230,7 +233,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   
   // Intern callback when marker dragging ends, 
   function _endMarkerDrag(latLng) {
-    // TODO: notify latLng
+    this.draggableCallback.call(this.draggableContext,latLng.lat(), latLng.lng());
   }
 
   // Parses placemark object as Google do not provide any API for that.
