@@ -10,6 +10,11 @@ body {
   clear: both;
 }
 
+a {
+  color:#2D99CD;
+  text-decoration: none;
+}
+
 #header {
   background: #2C2C2C;
   color: #FFF;

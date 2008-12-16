@@ -130,6 +130,20 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
       this.mapProxy.getPlacemarks(this.getCurrentAddress(), _placemarksReceived, this);
     }
   }
+  
+  function showPlacemark(index) {
+    if (this.placemarks && index< this.placemarks.length) {
+      var placemark = this.placemarks[index];
+      if (this.options.markerDraggable) {
+        this.mapProxy.showPlacemark(placemark, this.options.showAddressOnMap, _markerDragEnd, this);
+      }
+      else {
+        this.mapProxy.showPlacemark(placemark, this.options.showAddressOnMap);
+      }
+      this.lat.value = this.mapProxy.getLat(placemark);
+      this.lng.value = this.mapProxy.getLng(placemark);
+    }
+  }
       
   // Returns current address fields
   function getCurrentAddress() {
@@ -172,16 +186,9 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
   
   // Callback when placemarks are found
   function _placemarksReceived(placemarks) {
+    this.placemarks = placemarks;
     if (placemarks) {
-      if (this.options.markerDraggable) {
-        this.mapProxy.showPlacemark(placemarks[0], this.options.showAddressOnMap, _markerDragEnd, this);
-      }
-      else {
-        this.mapProxy.showPlacemark(placemarks[0], this.options.showAddressOnMap);
-      }
-      
-      this.lat.value = this.mapProxy.getLat(placemarks[0]);
-      this.lng.value = this.mapProxy.getLng(placemarks[0]);
+      this.showPlacemark(0);      
     }
     else {
       this.lat.value = '';
@@ -204,13 +211,15 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
   return {
     initialize:         initialize,
     updateMap:          updateMap,
-    getCurrentAddress:  getCurrentAddress,
-    getMap:             getMap,
-    getMapProxy:        getMapProxy,
+    showPlacemark:      showPlacemark,
+    
     onInitialized:      onInitialized,
     onSuggestsSearch:   onSuggestsSearch,
     onSuggestsFound:    onSuggestsFound,
                        
+    getMap:             getMap,
+    getMapProxy:        getMapProxy,
+    getCurrentAddress:  getCurrentAddress,
     getCity:            _delegateToMapProxy('getCity'),
     getCountry:         _delegateToMapProxy('getCountry'),
     getZIP:             _delegateToMapProxy('getZIP'),
