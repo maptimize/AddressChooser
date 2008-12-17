@@ -6,12 +6,7 @@ Mapeed.AddressChooser = {};
 
 // Utility function to get DOM element 
 Mapeed.AddressChooser.$element = function $element(element) {
-  if (element instanceof Element) {
-    return element;
-  }
-  else {
-    return document.getElementById(element);
-  }
+  return document.getElementById(element);
 }
 
 // Utility function to copy property from source to destination object
