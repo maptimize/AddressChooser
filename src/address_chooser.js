@@ -61,7 +61,7 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
   
   // Get event to listen for an element. INPUT and SELECT are allowed
   function eventForElement(element) {
-    return element.tagName == 'INPUT' ? 'keypress' : 'change';
+    return element.tagName == 'INPUT' ? 'keyup' : 'change';
   }
   
   // Get value of an element. INPUT and SELECT are allowed
@@ -108,21 +108,36 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
   }
   
   // Update map with current address
-  function updateMap(event, delay) {
+  function updateMap(event, delay) {    
     if (event) {
       // Do not handle keys like arrows, escape... just accept delete/backspace
       var key = event.keyCode;
-      if (key >0 && key != 8 && key != 46) return;
+      if (event.charCode || (key >0 && key < 47 && key != 8 && key != 46)) return;
     }
     if (delay) {
       var self = this;
       if (this.timeout) clearTimeout(this.timeout);
-      
       this.timeout = setTimeout(function() {self.updateMap()}, delay);
     }
     else {
       this.callbacks.onSuggestsSearch(this);
+      
       this.mapProxy.getPlacemarks(this.getCurrentAddress(), _placemarksReceived, this);
+    }
+  }
+  
+  function initMap(showAddress, zoom) {
+    if (this.lat.value && this.lng.value) {
+      this.mapProxy.showMarker(this.lat.value, this.lng.value, zoom || 5, 
+                               showAddress ? this.getCurrentAddress().join('<br/>') : false , _markerDragEnd, this)
+    }
+    else {
+      var address = this.getCurrentAddress();
+      if (address.length == 0) {
+        this.centerOnClientLocation();
+      } else {
+        this.updateMap();
+      }
     }
   }
   
@@ -195,7 +210,10 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
   }
   
   function _delegateToMapProxy(method) {
-    return function(placemark) {return this.mapProxy[method](placemark)}
+    return function() {
+      var args = arguments;
+      return this.mapProxy[method].apply(this.mapProxy, arguments)
+    }
   }
   
   function _markerDragEnd(lat, lng) {
@@ -204,21 +222,24 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
   }
   
   return {
-    initialize:         initialize,
-    updateMap:          updateMap,
-    showPlacemark:      showPlacemark,
+    initialize:             initialize,
+    initMap:                initMap,
+    updateMap:              updateMap,
+    showPlacemark:          showPlacemark,
+                           
+    onInitialized:          onInitialized,
+    onSuggestsSearch:       onSuggestsSearch,
+    onSuggestsFound:        onSuggestsFound,
+                           
+    getMapProxy:            getMapProxy,
+    getCurrentAddress:      getCurrentAddress,
+    getMap:                 _delegateToMapProxy('getMap'),
+    getCity:                _delegateToMapProxy('getCity'),
+    getCountry:             _delegateToMapProxy('getCountry'),
+    getZIP:                 _delegateToMapProxy('getZIP'),
+    getStreet:              _delegateToMapProxy('getStreet'),
+    getAddress:             _delegateToMapProxy('getAddress'),
     
-    onInitialized:      onInitialized,
-    onSuggestsSearch:   onSuggestsSearch,
-    onSuggestsFound:    onSuggestsFound,
-                       
-    getMap:             getMap,
-    getMapProxy:        getMapProxy,
-    getCurrentAddress:  getCurrentAddress,
-    getCity:            _delegateToMapProxy('getCity'),
-    getCountry:         _delegateToMapProxy('getCountry'),
-    getZIP:             _delegateToMapProxy('getZIP'),
-    getStreet:          _delegateToMapProxy('getStreet'),
-    getAddress:         _delegateToMapProxy('getAddress')
+    centerOnClientLocation: _delegateToMapProxy('centerOnClientLocation')
   }
 })();

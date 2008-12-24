@@ -34,8 +34,6 @@ Mapeed.Proxy.GoogleMap = function(element, callback, context) {
     
     self.geocoder = new GClientGeocoder;
     callback.call(context, self.map);
-    
-    self.clientLocation = google && google.loader ? google.loader.ClientLocation : null;
   }
  
   // Google map is not loaded
@@ -181,14 +179,20 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
    *  Displays placemark of the map.
    **/
   function showPlacemark(placemark, showAddress, draggableCallback, draggableContext) {
-    var latLng   = new GLatLng(placemark.Point.coordinates[1], placemark.Point.coordinates[0])
-        accuracy = placemark.AddressDetails.Accuracy,
+    var accuracy = placemark.AddressDetails.Accuracy,
+        address  = showAddress ? placemark.address.split(',').join('<br/>') : false,
         zoom = 1;
     if      (accuracy >= 9)  zoom = 17;
     else if (accuracy >= 6 ) zoom = 14;
     else if (accuracy >= 4)  zoom = 12;
     else if (accuracy >  1)  zoom = 6;
     else                     zoom = 3;
+
+    this.showMarker(placemark.Point.coordinates[1], placemark.Point.coordinates[0], zoom, address, draggableCallback, draggableContext)
+  }
+  
+  function showMarker(lat, lng, zoom, address, draggableCallback, draggableContext) {
+    var latLng = new GLatLng(lat, lng);
     this.map.setCenter(latLng, zoom);
     
     if (this.marker) {
@@ -210,15 +214,21 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     else {
       this.marker.disableDragging();
     }
-      
-    if (showAddress)
-      this.marker.openInfoWindowHtml(placemark.address.split(',').join('<br/>'));
+    if (address)
+      this.marker.openInfoWindowHtml(address);
   }
   
   function hidePlacemark() {
     if (this.marker) {
       this.marker.closeInfoWindow();
       this.marker.hide();
+    }
+  }
+  
+  function centerOnClientLocation() {
+    var clientLocation = google && google.loader ? google.loader.ClientLocation : null;
+    if (clientLocation) {
+      this.map.setCenter(new GLatLng(clientLocation.latitude, clientLocation.longitude), 8);
     }
   }
   
@@ -264,20 +274,24 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   
   // Publish public API
   return {                
-    addEventListener:      addEventListener,
-    removeEventListener:   removeEventListener,
-    getMap:                getMap,
-    getPlacemarks:         getPlacemarks,
-    showPlacemark:         showPlacemark,
-    hidePlacemark:         hidePlacemark,
-
-    getLat:                getLat,
-    getLng:                getLng,
-                          
-    getAddress:            getAddress,
-    getCity:               getCity,
-    getCountry:            getCountry,
-    getZIP:                getZIP,
-    getStreet:             getStreet
+    addEventListener:       addEventListener,
+    removeEventListener:    removeEventListener,
+    getMap:                 getMap,
+    
+    centerOnClientLocation: centerOnClientLocation,
+    
+    getPlacemarks:          getPlacemarks,
+    showPlacemark:          showPlacemark,
+    showMarker:             showMarker,
+    hidePlacemark:          hidePlacemark,
+                            
+    getLat:                 getLat,
+    getLng:                 getLng,
+                            
+    getAddress:             getAddress,
+    getCity:                getCity,
+    getCountry:             getCountry,
+    getZIP:                 getZIP,
+    getStreet:              getStreet
   }
 })();

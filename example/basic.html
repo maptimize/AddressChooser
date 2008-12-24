@@ -31,7 +31,7 @@
     <p>
     <p>
       This version does not handle google suggestions. Check out examples with autocomplete based on 
-      <a href="with_prototype.html">Prototype</a> or jQuery.
+      <a href="with_prototype.html">Prototype</a> or  <a href="with_jquery.html">jQuery</a>.
       Keep in mind that you do not need a framework to handle google suggestions.
     </p>
   </div>
@@ -42,7 +42,7 @@
       <input type='text' name='street' id='street' class='text' />
 
       <label for='city'>City</label>
-      <input type='text' name='city' id='city' class='text' />
+      <input type='text' name='city' id='city' class='text' value=''/>
 
       <label for='zip'>ZIP Code</label>
       <input type='text' name='zip' id='zip' class='text' />
@@ -58,8 +58,8 @@
       </select>
     
       <input type='submit' value='Save' id='submit'/>
-      <input type='hidden' name='lat' id='lat'/>
-      <input type='hidden' name='lng' id='lng'/>
+      <input type='hidden' name='lat' id='lat' />
+      <input type='hidden' name='lng' id='lng' />
     </form>
 
     
@@ -90,34 +90,42 @@
     document.getElementById('submit').disabled = true;
 
     function displayAddress() {
-      var text = widget.getCurrentAddress(),
+      var text = 'Address:',
           lat = document.getElementById('lat'),
           lng = document.getElementById('lng');
       
       if (lat.value) {
+        text += widget.getCurrentAddress();
         text += '\n'
-        text += 'latitude : ' + document.getElementById('lat').value;
+        text += 'latitude: ' + document.getElementById('lat').value;
         text += '\n'
-        text += 'longitude : ' + document.getElementById('lng').value;
+        text += 'longitude: ' + document.getElementById('lng').value;
       }
       else {
         text += 'No location found'
       }
+      alert(text);
     }
         
     // If you want to customized your map, add code in onInitialized callback
     function onInitialized(widget) {
+      // Add small map control (zoom and pan)
       widget.getMap().addControl(new GSmallMapControl());
-      widget.updateMap();
+      // If input fields have values, this will display current position on the map
+      widget.initMap(true);
     }
     
     function onSuggestsSearch(widget) {
+      // Enable submit button
       document.getElementById('submit').disabled = true;
+      // Remove spinner
       document.getElementById('big_spinner').style.display = 'block';
     }
 
     function onSuggestsFound(widget, placemarks) {
+      // Disable submit button
       document.getElementById('submit').disabled = !placemarks || placemarks.length == 0;
+      // Remove spinner
       document.getElementById('big_spinner').style.display = 'none';
     }
     
