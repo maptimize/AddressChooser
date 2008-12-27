@@ -22,7 +22,9 @@ Mapeed.Proxy = {};
   *  - callback (Function): callback called when map is ready
   *  - context (Object): calling context
   *  
-  *  Creates a new Mapeed.Proxy.GoogleMap object used by Mapeed.AddressChooser.Plugin
+  *  Creates a new Mapeed.Proxy.GoogleMap object used by Mapeed.AddressChooser.Plugin. 
+  *  Calls calling on context when map is initiliazed and ready to use
+  *  By default map displays the world but it can be changed when callback is called
   **/
   
 Mapeed.Proxy.GoogleMap = function(element, callback, context) {
@@ -170,13 +172,13 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
    
   /** 
-   *  Mapeed.Proxy.GoogleMap#showPlacemark(placemark, showAddress, draggable) -> null
+   *  Mapeed.Proxy.GoogleMap#showPlacemark(tagName[, showAddress = null, draggableCallback = null, draggableContext = null ]) -> undefined
    *  - placemark (Object): object representing google map placemark (get by calling getPlacemarks)
    *  - showAddress (Boolean): display address on the map (inside an info window)
    *  - draggableCallback (Function): callback called when marker has benn drgged. Callback will received lat and lng as arguments
    *  - draggableContext (Object): calling context for draggableCallback
    *  
-   *  Displays placemark of the map.
+   *  Displays placemark on the map.
    **/
   function showPlacemark(placemark, showAddress, draggableCallback, draggableContext) {
     var accuracy = placemark.AddressDetails.Accuracy,
@@ -191,6 +193,18 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     this.showMarker(placemark.Point.coordinates[1], placemark.Point.coordinates[0], zoom, address, draggableCallback, draggableContext)
   }
   
+  /** 
+   *  Mapeed.Proxy.GoogleMap#showPlacemark(lat, lng, zoom[, address = null, draggableCallback = null, draggableContext = null]) -> undefined
+   *  - lat (Float): marker's latitude
+   *  - lng (Float): marker's longitude
+   *  - zoom (Integer): map zoom
+   *  - address (String): address to display inside info window
+   *  - draggableCallback (Function): callback called when marker has benn drgged. Callback will received lat and lng as arguments
+   *  - draggableContext (Object): calling context for draggableCallback
+   *  
+   *  Displays placemark on the map, center map on marker location.
+   *  If an address is specified, marker will show this address in an info window
+   **/
   function showMarker(lat, lng, zoom, address, draggableCallback, draggableContext) {
     var latLng = new GLatLng(lat, lng);
     this.map.setCenter(latLng, zoom);
@@ -218,6 +232,11 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
       this.marker.openInfoWindowHtml(address);
   }
   
+  /** 
+   *  Mapeed.Proxy.GoogleMap#hidePlacemark() -> undefined
+   *  
+   *  Hides placemark fro the map, close info window if need be
+   **/
   function hidePlacemark() {
     if (this.marker) {
       this.marker.closeInfoWindow();
@@ -225,10 +244,16 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     }
   }
   
-  function centerOnClientLocation() {
+  /** 
+   *  Mapeed.Proxy.GoogleMap#centerOnClientLocation([zoom]) -> undefined
+   *  - zoom (Integer): map zoom, default 8
+   *  
+   *  Center map on user location (based on its IP) if available
+   **/
+  function centerOnClientLocation(zoom) {
     var clientLocation = google && google.loader ? google.loader.ClientLocation : null;
     if (clientLocation) {
-      this.map.setCenter(new GLatLng(clientLocation.latitude, clientLocation.longitude), 8);
+      this.map.setCenter(new GLatLng(clientLocation.latitude, clientLocation.longitude), zoom || 8);
     }
   }
   
