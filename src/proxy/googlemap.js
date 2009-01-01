@@ -171,6 +171,10 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     return placemark.Point.coordinates[0];
   }
    
+  function setIcon(icon) {
+    this.icon = icon;
+  }
+  
   /** 
    *  Mapeed.Proxy.GoogleMap#showPlacemark(tagName[, showAddress = null, draggableCallback = null, draggableContext = null ]) -> undefined
    *  - placemark (Object): object representing google map placemark (get by calling getPlacemarks)
@@ -214,7 +218,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
       this.marker.show();
     }
     else {
-      this.marker = new GMarker(latLng, {draggable: true});
+      this.marker = new GMarker(latLng, {draggable: true, icon: this.icon});
       GEvent.bind(this.marker, 'dragstart', this, _startMarkerDrag);
       GEvent.bind(this.marker, 'dragend', this, _endMarkerDrag);
       this.map.addOverlay(this.marker);
@@ -305,6 +309,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     
     centerOnClientLocation: centerOnClientLocation,
     
+    setIcon:                setIcon,
     getPlacemarks:          getPlacemarks,
     showPlacemark:          showPlacemark,
     showMarker:             showMarker,

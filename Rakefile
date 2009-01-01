@@ -33,7 +33,7 @@ desc "Alias for build"
 task :dist => :build
 
 DIST_DIRECTORY      = 'dist'
-DIST_FILES          = %w(googlemap.js address_chooser.js)
+DIST_FILES          = %w(proxy/googlemap.js address_chooser.js)
 DIST_OUTPUT         = File.join(DIST_DIRECTORY, 'mapeed_address_widget.js')
 PACKED_DIST_OUTPUT  = File.join(DIST_DIRECTORY, 'mapeed_address_widget_packed.js')
 

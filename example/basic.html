@@ -22,17 +22,25 @@
     </p>
     <ul>
       <li>Default options</li>
-      <li>Callback on <em>onInitialized</em> to add maps controls and to init map on user location (based on its IP)</li>
+      <li>Custom icon <img src='marker-blue.png'/></li>
+      <li>Center map on user location based on its IP</li>
+      <li>Callback on <em>onInitialized</em> to add maps controls and to init map on user location</li>
       <li>Callback on <em>onSuggestsSearch</em> to display spinner over the map while searching location</li>
       <li>Callback on <em>onSuggestsFound</em> to remove spinner over the map after searching location</li>
+      <li>Save button is disabled until an address is entered</li>
+      <li>Displays selected address in an alert window when you click on save buntton</li>
     </ul>
     <p>
-      Location search is sent to Google while you are typing (in fact when you stop typing for 300ms) and display automatically on the map.
+      Location search is sent to Google while you are typing (in fact when you stop typing for 300ms) and displays automatically on the map.
     <p>
     <p>
       This version does not handle google suggestions. Check out examples with autocomplete based on 
-      <a href="with_prototype.html">Prototype</a> or  <a href="with_jquery.html">jQuery</a>.
+      <a href="with_prototype.html">Prototype</a> or  <a href="with_jquery.html">jQuery</a> to see how to add suggestions in autocomplete component.
       Keep in mind that you do not need a framework to handle google suggestions.
+    </p>
+    
+    <p>
+      Check out source page to see JS code. Here is a extract <a href="http://pastie.org/350101">http://pastie.org/350101</a>.
     </p>
   </div>
   
@@ -78,13 +86,6 @@
     Under MIT licence - Provided by <a href='http://www.mapeed.com'>Mapeed</a>
   </div>
   <script type='text/javascript'>
-    
-    // Create widhet with default options and set callbacks
-    widget = new Mapeed.AddressChooser.Widget()
-      .onInitialized(onInitialized)
-      .onSuggestsSearch(onSuggestsSearch)
-      .onSuggestsFound(onSuggestsFound);
-      
     // Focus first field
     document.getElementById('street').focus();
     document.getElementById('submit').disabled = true;
@@ -107,11 +108,26 @@
       alert(text);
     }
         
+    var widget = new Mapeed.AddressChooser.Widget()
+      .onInitialized(onInitialized)
+      .onSuggestsSearch(onSuggestsSearch)
+      .onSuggestsFound(onSuggestsFound);
+
     // If you want to customized your map, add code in onInitialized callback
     function onInitialized(widget) {
       // Add small map control (zoom and pan)
       widget.getMap().addControl(new GSmallMapControl());
-      // If input fields have values, this will display current position on the map
+      // Change default icon 
+      // Create widhet with default options and set callbacks
+      var icon = new GIcon({image:            "marker-blue.png",
+                            iconSize:         new GSize(20, 30),
+                            iconAnchor:       new GPoint(9, 34),
+                            infoWindowAnchor: new GPoint(9, 2),
+                            infoShadowAnchor: new GPoint(18, 25),   
+                            shadow:           "http://www.google.com/mapfiles/shadow50.png"});
+      widget.setIcon(icon);
+      
+      // If input fields have values, this will display current position on the map otherwise center map on user location
       widget.initMap(true);
     }
     

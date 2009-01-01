@@ -1,7 +1,8 @@
 if (!window.PDoc) window.PDoc = {};
 PDoc.elements = {
   'base': { 'name': 'base', 'type': 'section', 'path': 'base.html#base-section' },
-'Base': { 'name': 'Base', 'type': 'namespace', 'path': 'base/base.html' },
+'Mapeed': { 'name': 'Mapeed', 'type': 'namespace', 'path': 'base/mapeed.html' },
+'Mapeed.AddressChooser': { 'name': 'Mapeed.AddressChooser', 'type': 'namespace', 'path': 'base/mapeed/addresschooser.html' },
 'Mapeed.AddressChooser.Widget': { 'name': 'Mapeed.AddressChooser.Widget', 'type': 'class', 'path': 'base/mapeed/addresschooser/widget.html' },
 'new FX.Mapeed.AddressChooser.Widget': { 'name': 'new FX.Mapeed.AddressChooser.Widget', 'type': 'constructor', 'path': 'base/fx/mapeed/addresschooser/widget.html#new-constructor' },
 'Mapeed.AddressChooser.Widget#updateMap': { 'name': 'Mapeed.AddressChooser.Widget#updateMap', 'type': 'instance method', 'path': 'base/mapeed/addresschooser/widget.html#updatemap-instance_method' },

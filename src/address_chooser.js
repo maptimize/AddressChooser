@@ -4,26 +4,18 @@
 **/
 
 /** section: base
- * Base
+ * Mapeed
  **/
 
 // Namespace
 if (typeof Mapeed == 'undefined') {
   Mapeed = {};
 }
+
+/**
+ * Mapeed.AddressChooser
+**/
 Mapeed.AddressChooser = {};
-
-// Utility function to get DOM element 
-Mapeed.AddressChooser.$element = function $element(element) {
-  return document.getElementById(element);
-}
-
-// Utility function to copy property from source to destination object
-Mapeed.AddressChooser.$extend = function(destination, source) {
-  for (var property in source)
-    destination[property] = source[property];
-  return destination;
-}
 
 // Default options for AddressChooser Widget
 Mapeed.AddressChooser.DefaultOptions = { map:             'map',
@@ -34,6 +26,7 @@ Mapeed.AddressChooser.DefaultOptions = { map:             'map',
                                          country:         'country',
                                          lat:             'lat',
                                          lng:             'lng',
+                                         icon:             null,
                                          auto:             true,
                                          delay:            300,
                                          showAddressOnMap: true,
@@ -60,6 +53,12 @@ Mapeed.AddressChooser.Widget = function(options) {
     return element.tagName == 'INPUT' ? 'keyup' : 'change';
   }
   
+  function extend(destination, source) {
+    for (var property in source)
+      destination[property] = source[property];
+    return destination;
+  }
+  
   // Internal: init callback when map is ready
   function init() {
     var options  = this.options,
@@ -68,7 +67,7 @@ Mapeed.AddressChooser.Widget = function(options) {
     // Get html elements for read/write values
     for (var i = allKeys.length-1; i>=0; --i){
       var k = allKeys[i];
-      this[k] =  $element(options[k]);
+      this[k] =  document.getElementById(options[k]);
     }
     
     // Check lat/lng required fields
@@ -88,13 +87,10 @@ Mapeed.AddressChooser.Widget = function(options) {
     this.callbacks.onInitialized(this);
   }
   
-
-  var $element = Mapeed.AddressChooser.$element,
-      $extend  = Mapeed.AddressChooser.$extend;
    
   // Apply default options
-  this.options = $extend({}, Mapeed.AddressChooser.DefaultOptions);
-  $extend(this.options, options);
+  this.options = extend({}, Mapeed.AddressChooser.DefaultOptions);
+  extend(this.options, options);
 
   // Set empty callbacks
   this.callbacks = {
@@ -105,7 +101,7 @@ Mapeed.AddressChooser.Widget = function(options) {
   this.placemarks = [];
     
   // Initialize proxy with init callback
-  this.mapProxy = new this.options.mapProxy($element(this.options.map), init, this);
+  this.mapProxy = new this.options.mapProxy(document.getElementById(this.options.map), init, this);
 };
 
 
@@ -122,7 +118,7 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
   }
   
   /** 
-   *  Mapeed.AddressChooser.Widget#updateMap([event = null, delay = 300]) -> null
+   *  Mapeed.AddressChooser.Widget#updateMap([event = null, delay = 300]) -> undefined
    *  - event (Event): Key event if called by keyup event
    *  - delay (Integer): Delay in ms to update map (default 300)
    *  
@@ -153,7 +149,7 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
   }
   
   /** 
-   *  Mapeed.AddressChooser.Widget#initMap([showAddress = false, zoom = 5]) -> null
+   *  Mapeed.AddressChooser.Widget#initMap([showAddress = false, zoom = 5]) -> undefined
    *  - showAddress (Boolean): 
    *  - zoom (Integer): map zoom (default 5)
    *  
@@ -175,7 +171,7 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
   }
   
   /** 
-   *  Mapeed.AddressChooser.Widget#showPlacemark(index) -> null
+   *  Mapeed.AddressChooser.Widget#showPlacemark(index) -> undefined
    *  - index (Integer): 
    *  
    *  TODO
@@ -287,6 +283,8 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     getZIP:                 _delegateToMapProxy('getZIP'),
     getStreet:              _delegateToMapProxy('getStreet'),
     getAddress:             _delegateToMapProxy('getAddress'),
+
+    setIcon:                _delegateToMapProxy('setIcon'),
     
     centerOnClientLocation: _delegateToMapProxy('centerOnClientLocation')
   }
