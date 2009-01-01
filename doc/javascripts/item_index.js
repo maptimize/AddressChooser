@@ -1,6 +1,15 @@
 if (!window.PDoc) window.PDoc = {};
 PDoc.elements = {
-  'proxy': { 'name': 'proxy', 'type': 'section', 'path': 'proxy.html#proxy-section' },
+  'base': { 'name': 'base', 'type': 'section', 'path': 'base.html#base-section' },
+'Base': { 'name': 'Base', 'type': 'namespace', 'path': 'base/base.html' },
+'Mapeed.AddressChooser.Widget': { 'name': 'Mapeed.AddressChooser.Widget', 'type': 'class', 'path': 'base/mapeed/addresschooser/widget.html' },
+'new FX.Mapeed.AddressChooser.Widget': { 'name': 'new FX.Mapeed.AddressChooser.Widget', 'type': 'constructor', 'path': 'base/fx/mapeed/addresschooser/widget.html#new-constructor' },
+'Mapeed.AddressChooser.Widget#updateMap': { 'name': 'Mapeed.AddressChooser.Widget#updateMap', 'type': 'instance method', 'path': 'base/mapeed/addresschooser/widget.html#updatemap-instance_method' },
+'Mapeed.AddressChooser.Widget#initMap': { 'name': 'Mapeed.AddressChooser.Widget#initMap', 'type': 'instance method', 'path': 'base/mapeed/addresschooser/widget.html#initmap-instance_method' },
+'Mapeed.AddressChooser.Widget#showPlacemark': { 'name': 'Mapeed.AddressChooser.Widget#showPlacemark', 'type': 'instance method', 'path': 'base/mapeed/addresschooser/widget.html#showplacemark-instance_method' },
+'Mapeed.AddressChooser.Widget#getCurrentAddress': { 'name': 'Mapeed.AddressChooser.Widget#getCurrentAddress', 'type': 'instance method', 'path': 'base/mapeed/addresschooser/widget.html#getcurrentaddress-instance_method' },
+'Mapeed.AddressChooser.Widget#getMapProxy': { 'name': 'Mapeed.AddressChooser.Widget#getMapProxy', 'type': 'instance method', 'path': 'base/mapeed/addresschooser/widget.html#getmapproxy-instance_method' },
+'proxy': { 'name': 'proxy', 'type': 'section', 'path': 'proxy.html#proxy-section' },
 'Mapeed.Proxy.GoogleMap': { 'name': 'Mapeed.Proxy.GoogleMap', 'type': 'class', 'path': 'proxy/mapeed/proxy/googlemap.html' },
 'new Mapeed.Proxy.GoogleMap': { 'name': 'new Mapeed.Proxy.GoogleMap', 'type': 'constructor', 'path': 'proxy/mapeed/proxy/googlemap.html#new-constructor' },
 'Mapeed.Proxy.GoogleMap#addEventListener': { 'name': 'Mapeed.Proxy.GoogleMap#addEventListener', 'type': 'instance method', 'path': 'proxy/mapeed/proxy/googlemap.html#addeventlistener-instance_method' },
@@ -13,5 +22,9 @@ PDoc.elements = {
 'Mapeed.Proxy.GoogleMap#getZIP': { 'name': 'Mapeed.Proxy.GoogleMap#getZIP', 'type': 'instance method', 'path': 'proxy/mapeed/proxy/googlemap.html#getzip-instance_method' },
 'Mapeed.Proxy.GoogleMap#getStreet': { 'name': 'Mapeed.Proxy.GoogleMap#getStreet', 'type': 'instance method', 'path': 'proxy/mapeed/proxy/googlemap.html#getstreet-instance_method' },
 'Mapeed.Proxy.GoogleMap#getZIP': { 'name': 'Mapeed.Proxy.GoogleMap#getZIP', 'type': 'instance method', 'path': 'proxy/mapeed/proxy/googlemap.html#getzip-instance_method' },
-'Mapeed.Proxy.GoogleMap#getZIP': { 'name': 'Mapeed.Proxy.GoogleMap#getZIP', 'type': 'instance method', 'path': 'proxy/mapeed/proxy/googlemap.html#getzip-instance_method' }
+'Mapeed.Proxy.GoogleMap#getZIP': { 'name': 'Mapeed.Proxy.GoogleMap#getZIP', 'type': 'instance method', 'path': 'proxy/mapeed/proxy/googlemap.html#getzip-instance_method' },
+'Mapeed.Proxy.GoogleMap#showPlacemark': { 'name': 'Mapeed.Proxy.GoogleMap#showPlacemark', 'type': 'instance method', 'path': 'proxy/mapeed/proxy/googlemap.html#showplacemark-instance_method' },
+'Mapeed.Proxy.GoogleMap#showPlacemark': { 'name': 'Mapeed.Proxy.GoogleMap#showPlacemark', 'type': 'instance method', 'path': 'proxy/mapeed/proxy/googlemap.html#showplacemark-instance_method' },
+'Mapeed.Proxy.GoogleMap#hidePlacemark': { 'name': 'Mapeed.Proxy.GoogleMap#hidePlacemark', 'type': 'instance method', 'path': 'proxy/mapeed/proxy/googlemap.html#hideplacemark-instance_method' },
+'Mapeed.Proxy.GoogleMap#centerOnClientLocation': { 'name': 'Mapeed.Proxy.GoogleMap#centerOnClientLocation', 'type': 'instance method', 'path': 'proxy/mapeed/proxy/googlemap.html#centeronclientlocation-instance_method' }
 };
