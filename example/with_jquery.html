@@ -19,25 +19,55 @@
 </head>
 
 <body>
-  <form id='form' onsubmit='displayAddress(); return false;'>
-    <label for='street'>Street</label>
-    <input type='text' name='street' id='street' class='text' autocomplete='off'/>
-    
-    <label for='country'>Country</label>
-    <select  name='country' id='country'>
-      <option value='France'>France</option>
-      <option value='USA'>USA</option>
-    </select>
-    
-    <input type='submit' value='Save' id='submit'/>
-    
-    <input type='hidden' name='lat' id='lat'/>
-    <input type='hidden' name='lng' id='lng'/>
-  </form>
-  <div id='map_container'>
-    <div id='map'></div>
-    You can drag the marker to place it to the current location
+  <div id="header">
+    <h1>Mapeed.AddressChooser / Basic example</h1>
   </div>
+  <div id='container'>
+    <p>
+      This example uses Mapeed.AddressChooser.Widget with Prototype/Scriptaculous framework.
+      Address is an autocomplete field filled by addresses returns by Google Map:
+    </p>
+    <ul>
+      <li>Default options</li>
+      <li>Callback on <em>onInitialized</em> to add maps controls</li>
+      <li>Callback on <em>onSuggestsSearch</em> to display spinner on address field</li>
+      <li>Callback on <em>onSuggestsFound</em> to remove spinner on address field and fill autocomplete</li>
+    </ul>
+    <p>
+      Address string is sent to Google while you are typing (in fact you stop typing for one second) 
+      and results are display automatically in the autocomplete.
+    <p>
+  </div>
+  
+  <div id="address_chooser">
+  
+    <form id='form' onsubmit='displayAddress(); return false;'>
+      <label for='street'>Street</label>
+      <input type='text' name='street' id='street' class='text' autocomplete='off'/>
+    
+      <label for='country'>Country</label>
+      <select  name='country' id='country'>
+        <option value='France'>France</option>
+        <option value='USA'>USA</option>
+      </select>
+    
+      <input type='submit' value='Save' id='submit'/>
+    
+      <input type='hidden' name='lat' id='lat'/>
+      <input type='hidden' name='lng' id='lng'/>
+    </form>
+    <div id='map_container'>
+      <div id='map'></div>
+      <div id='map_tooltip'>
+        drag marker to fix location
+      </div>
+    </div>
+  <div class="clear"></div>
+  </div>
+
+    <div id='footer'>
+      Under MIT licence - Provided by <a href='http://www.mapeed.com'>Mapeed</a>
+    </div>
 
   <script type='text/javascript'>
     
