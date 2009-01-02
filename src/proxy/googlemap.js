@@ -151,7 +151,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
  
   /** 
-   *  Mapeed.Proxy.GoogleMap#getZIP(placemark) -> Number
+   *  Mapeed.Proxy.GoogleMap#getLat(placemark) -> Number
    *  - placemark (Object): object representing google map placemark (get by calling getPlacemarks)
    *  
    *  Returns latitude a placemark.
@@ -161,7 +161,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
    
   /** 
-   *  Mapeed.Proxy.GoogleMap#getZIP(placemark) -> Number
+   *  Mapeed.Proxy.GoogleMap#getLng(placemark) -> Number
    *  - placemark (Object): object representing google map placemark (get by calling getPlacemarks)
    *  
    *  Returns longitude a placemark.
