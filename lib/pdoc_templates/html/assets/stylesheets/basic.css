@@ -150,9 +150,9 @@ label {
   filter: alpha(opacity = 50);
 }
 
-ul#features li {
+ul.features li {
   margin-left:20px;
-  list-style-type: disc;
+  list-style-type: disc !important;
   font-family: arial;
   font-size:14px;
 }
