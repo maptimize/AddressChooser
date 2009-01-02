@@ -34,9 +34,9 @@ desc "Alias for build"
 task :dist => :build
 
 DIST_DIRECTORY      = 'dist'
-DIST_FILES          = %w(proxy/googlemap.js address_chooser.js)
-DIST_OUTPUT         = File.join(DIST_DIRECTORY, 'address_chooser.js')
-PACKED_DIST_OUTPUT  = File.join(DIST_DIRECTORY, 'address_chooser_packed.js')
+DIST_FILES          = %w(proxy/googlemap.js addresschooser.js)
+DIST_OUTPUT         = File.join(DIST_DIRECTORY, 'addresschooser.js')
+PACKED_DIST_OUTPUT  = File.join(DIST_DIRECTORY, 'addresschooser_packed.js')
 
 YUI_COMPRESSOR      = 'java -jar lib/yuicompressor/yuicompressor-2.3.5.jar'
 

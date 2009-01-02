@@ -1,22 +1,21 @@
-/**
- *  == proxy ==
- *  The proxy section
-**/
-
 // Namespace
 if (typeof Mapeed == 'undefined') {
   Mapeed = {};
 }
 Mapeed.Proxy = {};
 
-/** section: proxy
+/**
+ * Mapeed.Proxy
+**/
+
+/** section: base
  *  class Mapeed.Proxy.GoogleMap
  *
  * Proxy class to handle Google Map API
  *  
  **/
 
- /** section: proxy
+ /** section: base
   *  new Mapeed.Proxy.GoogleMap(element, callback, context)
   *  - element (Element): element used to create GMap2 object
   *  - callback (Function): callback called when map is ready

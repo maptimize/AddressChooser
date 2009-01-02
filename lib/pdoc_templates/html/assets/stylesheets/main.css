@@ -217,7 +217,8 @@ div#masthead h1#logo {
 
 ul.method-list li {
   display: inline;
-  border-top: 1px solid #ccc;
+  float:left;
+  margin: 3px;
 }
 
   ul.method-list li a {
