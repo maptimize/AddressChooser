@@ -1,0 +1,39 @@
+#header {
+  background: #2C2C2C;
+  color: #FFF;
+  margin:0;
+  padding: 1em;
+  font-size: 0.8em;
+  border-bottom: 6px solid #000;
+}
+
+#header h1 {
+  margin:0;
+  font-weight: normal;
+  font-size: 2em;
+}
+
+#header h1 a{
+  color: #FFF;
+}
+
+#footer {
+  font-size: 0.8em;
+  color: #DDD;
+  border-top: 1px solid #E2E2E2;
+  margin: 5em 0 2em 0;
+  color: #555;
+  padding-top: 4px;
+}
+
+#footer a {
+  color:#92CD00;
+  text-decoration: none;
+}
+
+#container {
+  margin: auto;
+  width: 55em;
+  text-align: left;
+  font-size: 0.9em;
+}

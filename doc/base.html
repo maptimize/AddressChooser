@@ -2,103 +2,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Prototype API documentation | base section</title>
+    <title>Mapeed.AddressChooser API documentation | base section</title>
 	  <meta name="generator" content="PDoc" />
 	  
 	  <script type="text/javascript" src="javascripts/prototype.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascripts/effects.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascripts/controls.js" charset="utf-8"></script>
-	  <script type="text/javascript" src="javascripts/application.js" charset="utf-8"></script>
-<script type="text/javascript" src="javascripts/code_highlighter.js" charset="utf-8"></script>
+	  <script type="text/javascript" src="javascripts/code_highlighter.js" charset="utf-8"></script>
 
 	  <script type="text/javascript" src="javascripts/item_index.js" charset="utf-8"></script>
 	  
-	  
-	  <link type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/screen.css" media="screen, projection" />
-<link type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/grid.css" media="screen, projection" />
-<link type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/highlighter.css" media="screen, projection" />
-<link type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/main.css" media="screen, projection" />
-	  
-	  <script type="text/javascript" charset="utf-8">
-	    function menuButtonMouseOver(event) {
-	      var menuButton = $('api_menu_button');
-	      var target = event.element();
-	      if (target === menuButton || target.descendantOf(menuButton)) {
-	        $('api_menu').show();
-	        $('search').focus();
-	      }
-	    }
-	    
-	    function menuButtonMouseOut(event) {
-	      var menuButton = $('api_menu_button');
-	      var menu = $('api_menu');
-	      var target = event.element(), related = event.relatedTarget;
-	      
-	      if (related === menu || related.descendantOf(menu)) return;
-	      menu.hide();
-	    }
-	    
-	    function menuMouseOut(event) {
-	      var menu = $('api_menu'), related = event.relatedTarget;
-	      if (related && !related.descendantOf(menu)) {
-	        arguments.callee.timer = Element.hide.delay(0.5, menu);
-	      } else {
-	        window.clearTimeout(arguments.callee.timer)
-	      }
-	    }
-	    
-	    document.observe('dom:loaded', function() {
-   	    $('api_menu_button').observe('mouseover', menuButtonMouseOver);
-   	    $('api_menu_button').observe('mouseout',  menuButtonMouseOut);
-   	    
-   	    $('api_menu').observe('mouseout', menuMouseOut);
-	    });
-	  </script>
+	  <link media="screen, projection" type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/screen.css" />
+<link media="screen, projection" type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/grid.css" />
+<link media="screen, projection" type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/highlighter.css" />
+<link media="screen, projection" type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/main.css" />
+<link media="screen, projection" type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/mapeed.css" />
 	  
 	  <script type="text/javascript" charset="utf-8">PDoc.pathPrefix = '';</script>
   </head>
   <body class="">
+    <div id="header">
+      <h1><a href="/Users/seb/Developer/Javascripts/address_chooser/doc/index.html">Mapeed.AddressChooser</a></h1>
+    </div>
     <div id="page">
       <div id="links_wrapper">
         <div id="links">
           <ul id="internal_links">
-            <li class="selected"><a href="#">Home</a></li>
-            <li class=""><a href="http://prototypejs.org">Prototype</a></li>
-            <li class=""><a href="http://pdoc.org">PDoc</a></li>
+            <li class="selected">Example:</li>
+            
+            <li><a href="/Users/seb/Developer/Javascripts/address_chooser/example/basic.html">Basic</a></li>
+            <li><a href="http://pdoc.org">with Prototype</a></li>
+            <li><a href="http://pdoc.org">with JQuery</a></li>
           </ul>
           <ul id="external_links">
-            <li id="rails_link"><a href="http://www.xilinus.com/">Xilinus</a></li>
+            <li class="selected">API Reference:</li>
+            <li><a href="base/mapeed/addresschooser/widget.html">AddressChooser</a></li>
+            <li><a href="http://www.xilinus.com/">Proxy.GoogleMap</a></li>
           </ul>
         </div> <!-- #links -->
       </div> <!-- #links_wrapper -->
       
-      <div id="masthead">
-        <div id="masthead_content">
-          <h1 onclick="with (document.body) className = className ? '' : 'grid'" id="logo"><span>Prototype JavaScript framework</span></h1>
-        </div> <!-- #masthead_content -->
-      </div> <!-- #masthead -->
-      
-      <div id="menu">
-        <div class="api-box">
-          <h2><a href="#" id="api_menu_button">Menu &darr;</a></h2>
-          
-    			<ul id="api_menu" class="menu-items" style="display: none">
-    				
-    					<li class="current"><a title="base (section)" class="current section" href="base.html#base-section">base</a><ul><li><a title="Mapeed (namespace)" class=" namespace" href="base/mapeed.html"><code>Mapeed</code></a><ul><li><a title="Mapeed.AddressChooser (namespace)" class=" namespace" href="base/mapeed/addresschooser.html"><code>Mapeed.AddressChooser</code></a><ul><li><a title="Mapeed.AddressChooser.Widget (class)" class=" class" href="base/mapeed/addresschooser/widget.html"><code>Mapeed.AddressChooser.Widget</code></a><ul></ul></li></ul></li></ul></li></ul></li>
-    				
-    					<li><a title="proxy (section)" class=" section" href="proxy.html#proxy-section">proxy</a><ul></ul></li>
-    				
-    			</ul>          
-        </div> <!-- .api-box -->
-
-        <div class="search-box">
-  			  <form>
-    			  <label>Search <input type="text" id="search" size="20" /></label>
-  			  </form>
-  			  <ul id="search_results" class="search-results menu-items" style="display:none"></ul>
-        </div> <!-- .search-box -->
-
-      </div> <!-- #menu -->
       
       <div id="main">
         
@@ -111,6 +54,9 @@
       </div> <!-- #main -->
             
     </div> <!-- #page -->
+    <div id='footer'>
+      Under MIT licence - Doc generated by <a href='http://www.pdoc.org'>PDoc</a> - Provided by <a href='http://www.mapeed.com'>Mapeed</a>
+    </div>
 
 </body>
 </html>

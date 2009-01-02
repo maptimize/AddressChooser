@@ -45,7 +45,7 @@ Mapeed.AddressChooser.AllKeys      = Mapeed.AddressChooser.AddressKeys.concat('l
  **/
  
 /** section: base
-*  new FX.Mapeed.AddressChooser.Widget([options])
+*  new Mapeed.AddressChooser.Widget([options])
 **/
 Mapeed.AddressChooser.Widget = function(options) {
   // Internal: Gets event to listen for an element. INPUT and SELECT are allowed
@@ -117,7 +117,7 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     }
   }
   
-  /** 
+  /** section: base
    *  Mapeed.AddressChooser.Widget#updateMap([event = null, delay = 300]) -> undefined
    *  - event (Event): Key event if called by keyup event
    *  - delay (Integer): Delay in ms to update map (default 300)
@@ -148,12 +148,13 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     }
   }
   
-  /** 
+  /** section: base
    *  Mapeed.AddressChooser.Widget#initMap([showAddress = false, zoom = 5]) -> undefined
-   *  - showAddress (Boolean): 
+   *  - showAddress (Boolean): if true display address in info window
    *  - zoom (Integer): map zoom (default 5)
    *  
-   *  TODO
+   *  Initiliaze map with current form values. Use lat/lng values if defined, else get current address else c
+   *  center on user location
    **/
   function initMap(showAddress, zoom) {
     if (this.lat.value && this.lng.value) {
@@ -170,11 +171,11 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     }
   }
   
-  /** 
+  /** section: base
    *  Mapeed.AddressChooser.Widget#showPlacemark(index) -> undefined
-   *  - index (Integer): 
+   *  - index (Integer): index of suggested placemark, must be valid
    *  
-   *  TODO
+   *  Displays suggested placemark on the map.
    **/
   function showPlacemark(index) {
     if (this.placemarks && index< this.placemarks.length) {
@@ -190,11 +191,10 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     }
   }
       
-  /** 
+  /** section: base
    *  Mapeed.AddressChooser.Widget#getCurrentAddress() -> String
-   *  - index (Integer): 
    *  
-   *  Returns current address by getting input fields values
+   *  Returns current address by getting input field values
    **/
   function getCurrentAddress() {
     var address     = [], 
@@ -212,7 +212,7 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     return address;
   }
 
-  /** 
+  /** section: base
    *  Mapeed.AddressChooser.Widget#getMapProxy() -> Mapeed.Proxy
    *  
    *  Returns current map proxy
@@ -221,16 +221,37 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     return this.mapProxy;
   }
   
+  /** section: base
+   *  Mapeed.AddressChooser.Widget#onSuggestsFound(callback) -> this
+   *  - callback (Function): function called when placemark suggestions have been found
+   *  
+   *  Sets callback called when placemark suggestions have been found. Usefull for removing spinner and for displaying
+   *  suggestions.
+   **/
   function onSuggestsFound(callback) {
     this.callbacks.onSuggestsFound = callback;
     return this;
   }
   
+  /** section: base
+   *  Mapeed.AddressChooser.Widget#onSuggestsSearch(callback) -> this
+   *  - callback (Function): function called when placemark suggestion search begins
+   *  
+   *  Sets callback called when placemark placemark suggestion search begins. Usefull for display spinner.
+   *  suggestions.
+   **/
   function onSuggestsSearch(callback) {
     this.callbacks.onSuggestsSearch = callback;
     return this;
   }
   
+  /** section: base
+   *  Mapeed.AddressChooser.Widget#onInitialized(callback) -> this
+   *  - callback (Function): function called when widget has been initialized
+   *  
+   *  Callback called when widget has been initialized. Usefull to customize map like adding controls or to setup
+   *  map with current address or current user location
+   **/
   function onInitialized(callback) {
     this.callbacks.onInitialized = callback;
     return this;
@@ -264,6 +285,57 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     this.lat.value = lat;
     this.lng.value = lng;
   }
+  
+  /** section: base
+   *  Mapeed.AddressChooser.Widget#getCity(placemark) -> String
+   *  - placemark (Object): Placemark object depending on mapping system.
+   *  
+   *  Returns city name of a placemark if exists otherwise returns empty string
+   **/
+  
+
+  /** section: base
+   *  Mapeed.AddressChooser.Widget#getCountry(placemark) -> String
+   *  
+   *  Returns coutnry name of a placemark if exists otherwise returns empty string
+   **/
+
+  /** section: base
+   *  Mapeed.AddressChooser.Widget#getZIP(placemark) -> String
+   *  
+   *  Returns zip code (postal code) of a placemark if exists otherwise returns empty string
+   **/
+   
+   /** section: base
+    *  Mapeed.AddressChooser.Widget#getStreet(placemark) -> String
+    *  
+    *  Returns street name of a placemark if exists otherwise returns empty string
+    **/
+   
+   /** section: base
+    *  Mapeed.AddressChooser.Widget#getAddress(placemark) -> String
+    *  
+    *  Returns full address of a placemark if exists otherwise returns empty string
+    **/
+
+   /** section: base
+    *  Mapeed.AddressChooser.Widget#getMap() -> Map object depending on mapping system
+    *  
+    *  Returns map object used by mapping system
+    **/
+  
+   /** section: base
+    *  Mapeed.AddressChooser.setIcon#getMap(icon) -> undefined
+    *  - icon (Object): icon object depending on mapping system
+    *  
+    *  Sets marker icon to overide default icon (depending on mapping system)
+    **/
+  
+   /** section: base
+    *  Mapeed.AddressChooser.Widget#getMap() -> Map object depending on mapping system
+    *  
+    *  Returns map object used by mapping system
+    **/
   
   // Publish public API
   return {

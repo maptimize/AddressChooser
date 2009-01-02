@@ -9,7 +9,7 @@ task :doc do
   require 'tempfile'
   
   output_directory    = 'doc'
-  templates_directory = File.join('lib', 'pdoc_templates', 'html')
+  templates_directory = File.join('lib', 'pdoc_templates')
   javascript_files    = File.join('src', '**', '*.js')
   
   FileUtils.rm_rf(output_directory)
@@ -21,6 +21,7 @@ task :doc do
   end
   temp.rewind
   
+  ROOT_DIR = ENV['ROOT_DIR'] || FileUtils.pwd
   PDoc::Runner.new(temp.path, :output => output_directory, :templates => templates_directory).run
   temp.close
 end

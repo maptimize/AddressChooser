@@ -74,6 +74,8 @@ div#masthead h1#logo {
   width: 840px;
   margin: 20px auto;
   position: relative;
+  text-align: left;
+  color: #333;
 }
 
   #main h2 {

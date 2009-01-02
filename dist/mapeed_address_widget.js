@@ -172,6 +172,10 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     return placemark.Point.coordinates[0];
   }
    
+  function setIcon(icon) {
+    this.icon = icon;
+  }
+  
   /** 
    *  Mapeed.Proxy.GoogleMap#showPlacemark(tagName[, showAddress = null, draggableCallback = null, draggableContext = null ]) -> undefined
    *  - placemark (Object): object representing google map placemark (get by calling getPlacemarks)
@@ -215,7 +219,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
       this.marker.show();
     }
     else {
-      this.marker = new GMarker(latLng, {draggable: true});
+      this.marker = new GMarker(latLng, {draggable: true, icon: this.icon});
       GEvent.bind(this.marker, 'dragstart', this, _startMarkerDrag);
       GEvent.bind(this.marker, 'dragend', this, _endMarkerDrag);
       this.map.addOverlay(this.marker);
@@ -306,6 +310,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     
     centerOnClientLocation: centerOnClientLocation,
     
+    setIcon:                setIcon,
     getPlacemarks:          getPlacemarks,
     showPlacemark:          showPlacemark,
     showMarker:             showMarker,
@@ -327,26 +332,18 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
 **/
 
 /** section: base
- * Base
+ * Mapeed
  **/
 
 // Namespace
 if (typeof Mapeed == 'undefined') {
   Mapeed = {};
 }
+
+/**
+ * Mapeed.AddressChooser
+**/
 Mapeed.AddressChooser = {};
-
-// Utility function to get DOM element 
-Mapeed.AddressChooser.$element = function $element(element) {
-  return document.getElementById(element);
-}
-
-// Utility function to copy property from source to destination object
-Mapeed.AddressChooser.$extend = function(destination, source) {
-  for (var property in source)
-    destination[property] = source[property];
-  return destination;
-}
 
 // Default options for AddressChooser Widget
 Mapeed.AddressChooser.DefaultOptions = { map:             'map',
@@ -357,6 +354,7 @@ Mapeed.AddressChooser.DefaultOptions = { map:             'map',
                                          country:         'country',
                                          lat:             'lat',
                                          lng:             'lng',
+                                         icon:             null,
                                          auto:             true,
                                          delay:            300,
                                          showAddressOnMap: true,
@@ -383,6 +381,12 @@ Mapeed.AddressChooser.Widget = function(options) {
     return element.tagName == 'INPUT' ? 'keyup' : 'change';
   }
   
+  function extend(destination, source) {
+    for (var property in source)
+      destination[property] = source[property];
+    return destination;
+  }
+  
   // Internal: init callback when map is ready
   function init() {
     var options  = this.options,
@@ -391,7 +395,7 @@ Mapeed.AddressChooser.Widget = function(options) {
     // Get html elements for read/write values
     for (var i = allKeys.length-1; i>=0; --i){
       var k = allKeys[i];
-      this[k] =  $element(options[k]);
+      this[k] =  document.getElementById(options[k]);
     }
     
     // Check lat/lng required fields
@@ -411,13 +415,10 @@ Mapeed.AddressChooser.Widget = function(options) {
     this.callbacks.onInitialized(this);
   }
   
-
-  var $element = Mapeed.AddressChooser.$element,
-      $extend  = Mapeed.AddressChooser.$extend;
    
   // Apply default options
-  this.options = $extend({}, Mapeed.AddressChooser.DefaultOptions);
-  $extend(this.options, options);
+  this.options = extend({}, Mapeed.AddressChooser.DefaultOptions);
+  extend(this.options, options);
 
   // Set empty callbacks
   this.callbacks = {
@@ -428,7 +429,7 @@ Mapeed.AddressChooser.Widget = function(options) {
   this.placemarks = [];
     
   // Initialize proxy with init callback
-  this.mapProxy = new this.options.mapProxy($element(this.options.map), init, this);
+  this.mapProxy = new this.options.mapProxy(document.getElementById(this.options.map), init, this);
 };
 
 
@@ -610,6 +611,8 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     getZIP:                 _delegateToMapProxy('getZIP'),
     getStreet:              _delegateToMapProxy('getStreet'),
     getAddress:             _delegateToMapProxy('getAddress'),
+
+    setIcon:                _delegateToMapProxy('setIcon'),
     
     centerOnClientLocation: _delegateToMapProxy('centerOnClientLocation')
   }

@@ -2,7 +2,8 @@ body {
   background: #fff;
   margin: 0;
   padding: 0;
-  color: #333;
+  color: #FFF;
+  text-align: center;
 }
 
 ul, li, p, h1, h2, h3, h4 {
@@ -23,13 +24,14 @@ li {
 div#links {
   margin: 0 auto;
   width: 835px;
-  padding: 16px 0;
-  height: 16px;
+  padding: 10px 0;
   overflow: hidden;
 }
 
 div#links_wrapper {
-  background: #fff;
+  background:#EEEEEE none repeat scroll 0 0;
+  border-bottom:1px solid #888888;
+  margin-bottom:10px;
 }
 
 div#links li {
@@ -37,7 +39,7 @@ div#links li {
 }
 
 div#links li a {
-  color: #666;
+  color:#92CD00;
 }
 
 div#links li.selected a {
@@ -48,19 +50,20 @@ div#links li.selected a {
 
 ul#internal_links {
   float: left;
+  color: #333;
 }
 
 ul#internal_links li {
-  margin-right: 25px;
+  margin-right: 10px;
 }
 
 ul#external_links {
   float: right;
+  color: #333;
 }
 
 ul#external_links li {
-  margin-left: 25px;
-  padding-left: 21px;
+  margin-left: 10px;
 }
 
 li#scripty_link {
@@ -309,7 +312,6 @@ ol, ol li {
   }
 
 ol, ul {
-  margin: 0 0 15px;
   padding-left: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
