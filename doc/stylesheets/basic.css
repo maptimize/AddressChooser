@@ -156,3 +156,9 @@ ul.features li {
   font-family: arial;
   font-size:14px;
 }
+
+.legend {
+  font-size:12px;
+  font-style:italic;
+  text-align:center;
+}
