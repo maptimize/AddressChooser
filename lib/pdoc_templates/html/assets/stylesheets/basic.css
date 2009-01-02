@@ -52,7 +52,7 @@ a {
 
 #address_chooser, #regular_form {
   margin: auto;
-  width: 49em;
+  width: 54em;
   background-color:#F8F8F8;
   border:1px solid #E2E2E2;
   padding: 1em;
@@ -65,15 +65,15 @@ a {
 
 #map_container {
   float:right;
-  width: 15em;
+  width: 20em;
   text-align: center;
   position: relative;
 }
 
 #map {
   float:left;
-  width: 15em;
-  height: 15em;
+  width: 20em;
+  height: 20em;
   border: 1px solid #333;
   overflow: hidden;
 }
