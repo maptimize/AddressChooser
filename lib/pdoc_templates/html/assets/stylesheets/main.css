@@ -76,6 +76,8 @@ div#masthead h1#logo {
   position: relative;
   text-align: left;
   color: #333;
+  font-size:0.9em;
+  
 }
 
   #main h2 {
@@ -122,6 +124,7 @@ div#masthead h1#logo {
       overflow: hidden;
       padding-bottom: 0;
       margin: 5px 0 0;
+      padding-left:65px;
     }
   
     #main .section h3 {

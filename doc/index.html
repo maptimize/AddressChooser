@@ -17,6 +17,7 @@
 <link media="screen, projection" type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/highlighter.css" />
 <link media="screen, projection" type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/main.css" />
 <link media="screen, projection" type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/mapeed.css" />
+<link media="screen, projection" type="text/css" charset="utf-8" rel="stylesheet" href="stylesheets/basic.css" />
 	  
 	  <script type="text/javascript" charset="utf-8">PDoc.pathPrefix = '';</script>
   </head>
@@ -45,13 +46,110 @@
       
       <div id="main">
         
-        
+        <script src="http://maps.google.com/jsapi?key=ABQIAAAAPvuQxAHKdvs2AzUcIgAydBSETxe3qBmLdxF0QQkLqemEKq7m_hQlfgsFv1oarKkV90vgnDaysupsXQ" type="text/javascript"></script>
+<script src="javascripts/demo.js" type="text/javascript"></script>
+<script src="javascripts/address_chooser.js" type="text/javascript"></script>
 
-<h2>Mapeed.AddressChooser</h2>
 
-<div class="section">
-  <p>Welcome to the Prototype FX Documentation.</p>
-</div> <!-- .section -->
+
+<h1>Introduction</h1>
+<b>Mapeed.AddressChooser</b> is a Javascript script to create a nice address form for any websites that need to collect addressed. For example for a user, for a place or for anything that can be localized on a map.
+<br/>
+<br/>
+This widget is mainly inspired by <a href="http://www.google.com/local/add/lookup">Google Local Business Center</a>.
+
+<h1>Features</h1>
+
+<b>Mapeed.AddressChooser</b>'s features are:
+<ul id='features'>
+  <li><strong>No framework dependent</strong>. You can use it as is or with any great frameworks like Prototype, JQuery, YUI ...</li>
+  <li>
+    <strong>No mapping system dependent</strong>. The current implementation is based on Google Map using a Google Map proxy object. 
+    <br/>
+    But you can create your own map proxy (Yahoo Map for instance). You need to implement public method of Map Proxy object.
+  </li>
+  <li><strong>Interactive map</strong> display location while you are typing an address.</li>
+  <li><strong>Center map on user location</strong> (based on its IP) if mapping system allows it.</li>
+  <li>Works on Safari, Firefox, IE 6/7, Chrome and Opera</li>
+  <li>Documentation generated with <a href='http://www.pdoc.org'>PDoc</a> </li>
+  <li>Packed version <strong>under 6Ko</strong></li>
+  <li><strong>Open source</strong>, code available on <a href='http://github.com/mapeed/addresschooser/'>github</a>
+  <li>...</li>
+</ul>
+Check out examples and documentation for API details.
+
+<h1>Download</h1>
+
+
+<h1>Demo</h1>
+Enhanced by <b>Mapeed.AddressChooser</b>
+<div id="address_chooser">
+  <form id='form' onsubmit='displayAddress(); return false;'>
+    <label for='street'>Street</label>
+    <input type='text' name='street' id='street' class='text street' />
+
+    <label for='city'>City</label>
+    <input type='text' name='city' id='city' class='text city' value=''/>
+
+    <label for='zip'>ZIP Code</label>
+    <input type='text' name='zip' id='zip' class='text zip' />
+
+    <label for='state'>State</label>
+    <input type='text' name='state' id='state' class='text state' />
+
+    <label for='country'>Country</label>
+    <select  name='country' id='country' class='country'>
+      <option value=''>Select your country</option>
+      <option value='France'>France</option>
+      <option value='USA'>USA</option>
+    </select>
+  
+    <input type='submit' value='Save' id='submit'  class='submit'/>
+    <input type='hidden' name='lat' id='lat' />
+    <input type='hidden' name='lng' id='lng' />
+  </form>
+
+  
+  <div id='map_container'>
+    <div id="big_spinner" style="display:none"></div>
+    <div id='map'></div>
+    <div id='map_tooltip'>
+      drag marker to fix location
+    </div>
+  </div>
+
+  <div class="clear"></div>
+</div>
+<br/>
+Without <b>Mapeed.AddressChooser</b>
+<div id="regular_form">
+  <form id='regular' onsubmit='displayAddress(); return false;'>
+    <label for='street'>Street</label>
+    <input type='text' name='street' class='text street' />
+
+    <label for='city'>City</label>
+    <input type='text' name='city' class='text city'  value=''/>
+
+    <label for='zip'>ZIP Code</label>
+    <input type='text' name='zip' class='text zip' />
+
+    <label for='state'>State</label>
+    <input type='text' name='state' class='text state' />
+
+    <label for='country'>Country</label>
+    <select  name='country' class='country'>
+      <option value=''>Select your country</option>
+      <option value='France'>France</option>
+      <option value='USA'>USA</option>
+    </select>
+  
+    <input type='submit' class='submit' value='Save'/>
+  </form>
+  <div class="clear"></div>
+</div>
+<br/>
+
+
 
       </div> <!-- #main -->
             

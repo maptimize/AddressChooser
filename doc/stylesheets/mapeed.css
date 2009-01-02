@@ -37,3 +37,13 @@
   text-align: left;
   font-size: 0.9em;
 }
+
+
+#main h1 {
+  border-bottom:1px solid #DDDDDD;
+  font-size:1.5em;
+  font-weight:normal;
+  line-height:100%;
+  margin:14px 0;
+  padding-bottom:3px;
+}
