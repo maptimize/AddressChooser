@@ -19,7 +19,7 @@ a {
 #header {
   background: #2C2C2C;
   color: #FFF;
-  margin:0 0 2em 0;
+  margin:0 ;
   padding: 1em;
   font-size: 0.8em;
   border-bottom: 6px solid #000;
@@ -29,6 +29,7 @@ a {
   margin:0;
   font-weight: normal;
   font-size: 2em;
+  line-height:150%;
 }
 
 #footer {
@@ -145,4 +146,56 @@ a {
   left: 1px;
   opacity: 0.5;
   filter: alpha(opacity = 50);
+}
+
+
+div#links {
+  margin: 0 auto;
+  width: 835px;
+  padding: 10px 0;
+  overflow: hidden;
+  font-family:	Verdana,sans-serif;
+  font-size: 13px;
+}
+
+div#links_wrapper {
+  background:#EEEEEE none repeat scroll 0 0;
+  border-bottom:1px solid #888888;
+  margin-bottom:10px;
+}
+
+div#links li {
+  display: inline;
+}
+
+div#links li a {
+  color:#92CD00;
+}
+
+div#links li.selected a {
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+ul#internal_links {
+  float: left;
+  color: #333;
+  margin:0;
+  padding:0;
+}
+
+ul#internal_links li {
+  margin-right: 10px;
+}
+
+ul#external_links {
+  float: right;
+  color: #333;
+  margin:0;
+  padding:0;
+}
+
+ul#external_links li {
+  margin-left: 10px;
 }
