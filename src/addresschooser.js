@@ -138,7 +138,7 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     }
     else {
       // Fires addresschooser:suggests:started
-      this.mapProxy.trigger(this.element, 'addresschooser:suggests:started', this);
+      this.mapProxy.trigger(this.element, 'addresschooser:suggests:started');
       // Ask map proxy for getting placemarks
       this.mapProxy.getPlacemarks(this.getCurrentAddress(), _placemarksReceived, this);
     }
@@ -230,7 +230,7 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
       this.mapProxy.hidePlacemark();
     }
     // Fires addresschooser:suggests:found
-    this.mapProxy.trigger(this.element, 'addresschooser:suggests:found', this, placemarks);
+    this.mapProxy.trigger(this.element, 'addresschooser:suggests:found', placemarks);
   }
   
   // Internal: Delegates method to map proxy

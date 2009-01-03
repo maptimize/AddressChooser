@@ -38,6 +38,9 @@
       Address string is sent to Google while you are typing (in fact you stop typing for 300ms) 
       and results are display automatically in the autocomplete field.
     <p>
+    <p> 
+      It requires some hacks as scriptaculous autocomplete is not fully customizable. Check out code to see how to use it with AddressChooser.
+    </p>
   </div>
   
   <div id="address_chooser">
@@ -74,13 +77,30 @@
   </div>
 
   <script type='text/javascript'>
+    // BEGIN AUTOCOMPLETE SETTINGS AND HACKS :)
     // Create a local autocomplete without data. Data will be added dynamically according to map suggestions
-    var autocomplete = new Autocompleter.Local('street', 'suggests', [], {afterUpdateElement: afterUpdateElement});
+    var autocomplete = new Autocompleter.Local('street', 'suggests', [], {afterUpdateElement: afterUpdateElement, selector: selector});
 
+    // afterUpdateElement callback, display selected item on map
     function afterUpdateElement(element, selectedElement) {
       var index = selectedElement.up().immediateDescendants().indexOf(selectedElement);
       widget.showPlacemark(index);
     }
+    
+    // Change selector function
+    function selector(instance) {
+      instance.changed = false;
+      return "<ul><li>" + instance.options.array.join('</li><li>') + "</li></ul>";
+    }
+    // Do not observe keyboard event
+    autocomplete.onObserverEvent = function() {}
+    
+    // Wrap render to update map with selected placemarks
+    autocomplete.render = autocomplete.render.wrap(function(method) {
+      method();
+      widget.showPlacemark(this.index);
+    });
+    // END AUTOCOMPLETE SETTINGS AND HACKS :)
     
     widget = new Mapeed.AddressChooser.Widget({onInitialized: onInitialized});
 
@@ -99,25 +119,31 @@
       widget.initMap(true);
       
       // Observe 'suggests:started' to display spinner and disable submit button
-      widget.addEventListener('suggests:started', function(widget) {
+      widget.addEventListener('suggests:started', function() {
         $('street').addClassName('spinner');
         $('submit').disabled = true;
       });
       
       // Observe 'suggests:found' to hide spinner and enable submit button if a placemark has been found
-      widget.addEventListener('suggests:found', function(widget, placemarks) {
+      widget.addEventListener('suggests:found', function(placemarks) {
         $('submit').disabled = false;
         $('street').removeClassName('spinner');
         $('street').focus();
         
+        
         // Reset autocomplete suggestions to new placemarks
-        autocomplete.options.array.clear()
-        for (var i = 0; i < placemarks.length; i++) {
-          autocomplete.options.array.push(widget.getAddress(placemarks[i]));
+        autocomplete.options.array.clear();
+        if (placemarks && placemarks.length > 0) {
+          for (var i = 0; i < placemarks.length; i++) {
+            autocomplete.options.array.push(widget.getAddress(placemarks[i]));
+          }
+          // For autocomplete update
+          autocomplete.getUpdatedChoices();
+          autocomplete.show();
         }
-        // For autocomplete update
-        autocomplete.getUpdatedChoices();
-        autocomplete.show();
+        else {
+          autocomplete.hide();
+        }
       });
     }
 
