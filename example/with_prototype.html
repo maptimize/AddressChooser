@@ -30,9 +30,9 @@
     <ul>
       <li>Default options</li>
       <li><strong>Custom icon</strong> <img height=20 src='marker-blue.png'/></li>
-      <li>Callback on <em>onInitialized</em> to add maps controls</li>
-      <li>Callback on <em>onSuggestsSearch</em> to display spinner on address field</li>
-      <li>Callback on <em>onSuggestsFound</em> to remove spinner on address field and fill autocomplete</li>
+      <li>Set <em>onInitialized</em> callback to <strong>add map controls</strong> and to set up observers</li>
+      <li>Observe <em>suggests:started</em> to display spinner on address field</li>
+      <li>Observe <em>suggests:found</em> to remove spinner on address field and <strong>fill autocomplete</strong></li>
     </ul>
     <p>
       Address string is sent to Google while you are typing (in fact you stop typing for 300ms) 
