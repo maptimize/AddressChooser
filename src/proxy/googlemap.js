@@ -69,7 +69,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
   
   /** 
-   *  Mapeed.Proxy.GoogleMap#removeEventListener(handle) -> null
+   *  Mapeed.Proxy.GoogleMap#removeEventListener(handle) -> undefined
    *  - handle (Object): handle returns by addEventListener
    *  
    *  Removes a handler that was installed using addEventListener
@@ -78,7 +78,20 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
     GEvent.removeListener(handle);
   }
  
+ 
   /** 
+   *  Mapeed.Proxy.GoogleMap#trigger(source, event [, ...]) -> undefined
+   *  - source (Object): source object
+   *  - event (String): event name
+   *  
+   *  Fires a custom event on the source object. 
+   *  All remaining optional arguments after event are passed in turn as arguments to the event handler functions.
+   **/
+  function trigger() {
+    GEvent.trigger.apply(this, arguments);
+  }
+  
+  /**  
    *  Mapeed.Proxy.GoogleMap#getPlacemarks(address, callback, context) -> null
    *  - address (String): address to search
    *  - callback (Function): callback called when search is done. Callback will received a placemarks array as first argument
@@ -304,6 +317,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   return {                
     addEventListener:       addEventListener,
     removeEventListener:    removeEventListener,
+    trigger:                trigger,
     getMap:                 getMap,
     
     centerOnClientLocation: centerOnClientLocation,

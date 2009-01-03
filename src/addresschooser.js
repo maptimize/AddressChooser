@@ -31,7 +31,8 @@ Mapeed.AddressChooser.DefaultOptions = { map:             'map',
                                          delay:            300,
                                          showAddressOnMap: true,
                                          markerDraggable:  true,
-                                         mapProxy:         Mapeed.Proxy.GoogleMap };
+                                         mapProxy:         Mapeed.Proxy.GoogleMap,
+                                         onInitialized:    function() {} };
 
 
 
@@ -84,7 +85,7 @@ Mapeed.AddressChooser.Widget = function(options) {
         if (this[k]) this.mapProxy.addEventListener(this[k], eventForElement(this[k]), this, callback);
       }
     }
-    this.callbacks.onInitialized(this);
+    this.options.onInitialized(this);
   }
   
    
@@ -92,16 +93,11 @@ Mapeed.AddressChooser.Widget = function(options) {
   this.options = extend({}, Mapeed.AddressChooser.DefaultOptions);
   extend(this.options, options);
 
-  // Set empty callbacks
-  this.callbacks = {
-    onSuggestsSearch: function(){},
-    onSuggestsFound:  function(){},
-    onInitialized:    function(){}
-  };
   this.placemarks = [];
     
   // Initialize proxy with init callback
-  this.mapProxy = new this.options.mapProxy(document.getElementById(this.options.map), init, this);
+  this.element  = document.getElementById(this.options.map);
+  this.mapProxy = new this.options.mapProxy(this.element, init, this);
 };
 
 
@@ -141,8 +137,8 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
       this.timeout = setTimeout(function() {self.updateMap()}, delay || 300);
     }
     else {
-      // Call onSuggestsSearch callback
-      this.callbacks.onSuggestsSearch(this);
+      // Fires addresschooser:suggests:started
+      this.mapProxy.trigger(this.element, 'addresschooser:suggests:started', this);
       // Ask map proxy for getting placemarks
       this.mapProxy.getPlacemarks(this.getCurrentAddress(), _placemarksReceived, this);
     }
@@ -221,42 +217,6 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     return this.mapProxy;
   }
   
-  /** section: base
-   *  Mapeed.AddressChooser.Widget#onSuggestsFound(callback) -> this
-   *  - callback (Function): function called when placemark suggestions have been found
-   *  
-   *  Sets callback called when placemark suggestions have been found. Usefull for removing spinner and for displaying
-   *  suggestions.
-   **/
-  function onSuggestsFound(callback) {
-    this.callbacks.onSuggestsFound = callback;
-    return this;
-  }
-  
-  /** section: base
-   *  Mapeed.AddressChooser.Widget#onSuggestsSearch(callback) -> this
-   *  - callback (Function): function called when placemark suggestion search begins
-   *  
-   *  Sets callback called when placemark placemark suggestion search begins. Usefull for display spinner.
-   *  suggestions.
-   **/
-  function onSuggestsSearch(callback) {
-    this.callbacks.onSuggestsSearch = callback;
-    return this;
-  }
-  
-  /** section: base
-   *  Mapeed.AddressChooser.Widget#onInitialized(callback) -> this
-   *  - callback (Function): function called when widget has been initialized
-   *  
-   *  Callback called when widget has been initialized. Usefull to customize map like adding controls or to setup
-   *  map with current address or current user location
-   **/
-  function onInitialized(callback) {
-    this.callbacks.onInitialized = callback;
-    return this;
-  }
-  
   // Internal: Callback when placemarks are found
   function _placemarksReceived(placemarks) {
     this.placemarks = placemarks;
@@ -269,7 +229,8 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
       
       this.mapProxy.hidePlacemark();
     }
-    this.callbacks.onSuggestsFound(this, placemarks);
+    // Fires addresschooser:suggests:found
+    this.mapProxy.trigger(this.element, 'addresschooser:suggests:found', this, placemarks);
   }
   
   // Internal: Delegates method to map proxy
@@ -325,7 +286,7 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     **/
   
    /** section: base
-    *  Mapeed.AddressChooser.setIcon#getMap(icon) -> undefined
+    *  Mapeed.AddressChooser.Widget#setIcon(icon) -> undefined
     *  - icon (Object): icon object depending on mapping system
     *  
     *  Sets marker icon to overide default icon (depending on mapping system)
@@ -336,6 +297,10 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     *  
     *  Returns map object used by mapping system
     **/
+ 
+   function addEventListener(eventName, callback) {
+     return this.mapProxy.addEventListener(this.element, 'addresschooser:' + eventName, this, callback)
+   }    
   
   // Publish public API
   return {
@@ -343,10 +308,11 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     updateMap:              updateMap,
     showPlacemark:          showPlacemark,
                            
-    onInitialized:          onInitialized,
-    onSuggestsSearch:       onSuggestsSearch,
-    onSuggestsFound:        onSuggestsFound,
-                           
+    setIcon:                _delegateToMapProxy('setIcon'),
+    
+    centerOnClientLocation: _delegateToMapProxy('centerOnClientLocation'),
+
+    // Getters
     getMapProxy:            getMapProxy,
     getCurrentAddress:      getCurrentAddress,
     getMap:                 _delegateToMapProxy('getMap'),
@@ -355,9 +321,9 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     getZIP:                 _delegateToMapProxy('getZIP'),
     getStreet:              _delegateToMapProxy('getStreet'),
     getAddress:             _delegateToMapProxy('getAddress'),
-
-    setIcon:                _delegateToMapProxy('setIcon'),
     
-    centerOnClientLocation: _delegateToMapProxy('centerOnClientLocation')
+    // Events
+    addEventListener:       addEventListener,
+    removeEventListener:    _delegateToMapProxy('removeEventListener'),
   }
 })();

@@ -22,13 +22,12 @@
     </p>
     <ul>
       <li>Default options</li>
-      <li><strong>Custom icon</strong> <img height=20 src='marker-blue.png'/></li>
       <li><strong>Center map on user location</strong> based on its IP</li>
-      <li>Callback on <em>onInitialized</em> to <strong>add map controls</strong> and to init map on user location</li>
-      <li>Callback on <em>onSuggestsSearch</em> to <strong>display spinner</strong> over the map while searching location</li>
-      <li>Callback on <em>onSuggestsFound</em> to remove spinner over the map after searching location</li>
-      <li>Save button is disabled until an address is entered</li>
-      <li>Display selected address in an alert window when you click on save buntton</li>
+      <li>Set <em>onInitialized</em> callback to <strong>add map controls</strong> and to set up observers</li>
+      <li>Observe <em>suggests:started</em> to <strong>display spinner</strong> over the map while searching location</li>
+      <li>Observe <em>suggests:found</em> to <strong>remove spinner</strong> over the map after searching location</li>
+      <li>Save button is disabled until an valid address is entered</li>
+      <li>Display selected address in an alert window when clicking on save buntton</li>
     </ul>
     <p>
       Location search is sent to Google while you are typing (in fact when you stop typing for 300ms) and map displays automatically first result.
@@ -105,41 +104,31 @@
       alert(text);
     }
         
-    var widget = new Mapeed.AddressChooser.Widget()
-      .onInitialized(onInitialized)
-      .onSuggestsSearch(onSuggestsSearch)
-      .onSuggestsFound(onSuggestsFound);
+    var widget = new Mapeed.AddressChooser.Widget({onInitialized: onInitialized});
 
     // If you want to customized your map, add code in onInitialized callback
     function onInitialized(widget) {
       // Add small map control (zoom and pan)
       widget.getMap().addControl(new GSmallMapControl());
-      // Change default icon 
-      // Create widhet with default options and set callbacks
-      var icon = new GIcon({image:            "marker-blue.png",
-                            iconSize:         new GSize(20, 30),
-                            iconAnchor:       new GPoint(9, 34),
-                            infoWindowAnchor: new GPoint(9, 2),
-                            infoShadowAnchor: new GPoint(18, 25),   
-                            shadow:           "http://www.google.com/mapfiles/shadow50.png"});
-      widget.setIcon(icon);
       
-      // If input fields have values, this will display current position on the map otherwise center map on user location
+      // If input fields have values, it'll display current position on the map otherwise it'll center map on user location
       widget.initMap(true);
-    }
-    
-    function onSuggestsSearch(widget) {
-      // Enable submit button
-      document.getElementById('submit').disabled = true;
-      // Remove spinner
-      document.getElementById('big_spinner').style.display = 'block';
-    }
-
-    function onSuggestsFound(widget, placemarks) {
-      // Disable submit button
-      document.getElementById('submit').disabled = !placemarks || placemarks.length == 0;
-      // Remove spinner
-      document.getElementById('big_spinner').style.display = 'none';
+      
+      // Observe 'suggests:started' to display spinner and disable submit button
+      widget.addEventListener('suggests:started', function(widget) {
+        // Enable submit button
+        document.getElementById('submit').disabled = true;
+        // Remove spinner
+        document.getElementById('big_spinner').style.display = 'block';
+      });
+      
+      // Observe 'suggests:found' to hide spinner and enable submit button if a placemark has been found
+      widget.addEventListener('suggests:found', function(widget, placemarks) {
+        // Disable submit button
+        document.getElementById('submit').disabled = !placemarks || placemarks.length == 0;
+        // Remove spinner
+        document.getElementById('big_spinner').style.display = 'none';
+      });
     }
     
   </script>

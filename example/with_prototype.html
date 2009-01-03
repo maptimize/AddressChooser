@@ -28,6 +28,7 @@
     </p>
     <ul>
       <li>Default options</li>
+      <li><strong>Custom icon</strong> <img height=20 src='marker-blue.png'/></li>
       <li>Callback on <em>onInitialized</em> to add maps controls</li>
       <li>Callback on <em>onSuggestsSearch</em> to display spinner on address field</li>
       <li>Callback on <em>onSuggestsFound</em> to remove spinner on address field and fill autocomplete</li>
@@ -113,6 +114,14 @@
       function onInitialized(widget) {
         // Add some controls on map
         widget.getMap().addControl(new GSmallMapControl());
+        // Change default icon 
+        var icon = new GIcon({image:            "marker-blue.png",
+                              iconSize:         new GSize(20, 30),
+                              iconAnchor:       new GPoint(9, 34),
+                              infoWindowAnchor: new GPoint(9, 2),
+                              infoShadowAnchor: new GPoint(18, 25),   
+                              shadow:           "http://www.google.com/mapfiles/shadow50.png"});
+        widget.setIcon(icon);
         widget.initMap(true);
       }
     
