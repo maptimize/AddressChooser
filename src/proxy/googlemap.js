@@ -17,9 +17,9 @@ Mapeed.Proxy = {};
 
  /** section: base
   *  new Mapeed.Proxy.GoogleMap(element, callback, context)
-  *  - element (Element): element used to create GMap2 object
-  *  - callback (Function): callback called when map is ready
-  *  - context (Object): calling context
+  *  - element (Element): element used to create GMap2 object.
+  *  - callback (Function): callback called when map is ready.
+  *  - context (Object): calling context.
   *  
   *  Creates a new Mapeed.Proxy.GoogleMap object used by Mapeed.AddressChooser.Plugin. 
   *  Calls calling on context when map is initiliazed and ready to use
@@ -55,14 +55,14 @@ Mapeed.Proxy.GoogleMap = function(element, callback, context) {
 Mapeed.Proxy.GoogleMap.prototype = (function() {
   /** 
    *  Mapeed.Proxy.GoogleMap#addEventListener(source, event, object, method) -> GEventListener
-   *  - source (Object): source object
-   *  - event (String): event name
-   *  - object (Object): object used for calling method
-   *  - method (Function): function called when event is fire
+   *  - source (Object): source object.
+   *  - event (String): event name.
+   *  - object (Object): object used for calling method.
+   *  - method (Function): function called when event is fired.
    *  
    *  Registers an invocation of the method on the given object as the event handler 
    *  for a custom event on the source object. 
-   *  Returns a handle that can be used to eventually deregister the handler
+   *  Returns a handle that can be used to eventually deregister the handler.
    **/
   function addEventListener(source, event, object, method) {
     return GEvent.bindDom(source, event, object, method);
@@ -70,9 +70,9 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   
   /** 
    *  Mapeed.Proxy.GoogleMap#removeEventListener(handle) -> undefined
-   *  - handle (Object): handle returns by addEventListener
+   *  - handle (Object): handle returns by addEventListener.
    *  
-   *  Removes a handler that was installed using addEventListener
+   *  Removes a handler that was installed using addEventListener.
    **/
   function removeEventListener(handle) {
     GEvent.removeListener(handle);
@@ -80,7 +80,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
  
  
   /** 
-   *  Mapeed.Proxy.GoogleMap#trigger(source, event [, ...]) -> undefined
+   *  Mapeed.Proxy.GoogleMap#trigger(source, event [, args]) -> undefined
    *  - source (Object): source object
    *  - event (String): event name
    *  
@@ -114,7 +114,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   } 
   
   /** 
-   *  Mapeed.Proxy.GoogleMap#getMap(placemark) -> String
+   *  Mapeed.Proxy.GoogleMap#getAddress(placemark) -> String
    *  - placemark (Object): object representing google map placemark (get by calling getPlacemarks)
    *  
    *  Returns full address of a placemark
@@ -210,13 +210,13 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
   
   /** 
-   *  Mapeed.Proxy.GoogleMap#showPlacemark(lat, lng, zoom[, address = null, draggableCallback = null, draggableContext = null]) -> undefined
-   *  - lat (Float): marker's latitude
-   *  - lng (Float): marker's longitude
-   *  - zoom (Integer): map zoom
-   *  - address (String): address to display inside info window
-   *  - draggableCallback (Function): callback called when marker has benn drgged. Callback will received lat and lng as arguments
-   *  - draggableContext (Object): calling context for draggableCallback
+   *  Mapeed.Proxy.GoogleMap#showMarker(lat, lng, zoom[, address = null, draggableCallback = null, draggableContext = null]) -> undefined
+   *  - lat (Float): marker's latitude.
+   *  - lng (Float): marker's longitude.
+   *  - zoom (Integer): map zoom.
+   *  - address (String): address to display inside info window.
+   *  - draggableCallback (Function): callback called when marker has benn drgged. Callback will received lat and lng as arguments.
+   *  - draggableContext (Object): calling context for draggableCallback.
    *  
    *  Displays placemark on the map, center map on marker location.
    *  If an address is specified, marker will show this address in an info window
