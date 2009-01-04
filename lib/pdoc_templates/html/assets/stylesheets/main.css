@@ -165,7 +165,7 @@ div#masthead h1#logo {
   }
   
   #main pre.syntax {
-    background-color: #f5f5f5;
+    background-color: #DDD;
     color: #000;
     padding: 3px 5px;
   }
@@ -223,7 +223,7 @@ ul.method-list li {
 
   ul.method-list li a {
     background-color: #eee;
-    padding: 2px 3px;
+    padding: 0px 3px 2px 3px;
     border: 1px solid #ccc;
   }
     
@@ -231,6 +231,24 @@ ul.method-list li {
       background-color: #ddd;
     }
 
+
+
+/* @end */
+
+/* @group Agrument List */
+
+ul.argument-list li {
+  margin-left:2px;
+  border: none !important;
+}
+
+ul.argument-list  {
+  background-color: #F5F5F5;
+}
+
+ul.argument-list  pre {
+  margin: 0 !important;
+}
 
 
 /* @end */
@@ -433,6 +451,9 @@ ul.method-details-list li.highlighted {
   border: 2px solid #CDE0FB;
 }
 
+ul.method-details-list pre {
+  margin: 0 !important;
+}
 /* @end */
 
 
@@ -444,4 +465,11 @@ ul.method-details-list li.highlighted {
   z-index: 1000;
   left: 232px;
 }  
+
+.section-constructor  pre {
+  margin:0 !important;
+}
   
+.section-constructor {
+  padding-left:70px !important;
+}

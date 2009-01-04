@@ -35,7 +35,6 @@ Mapeed.AddressChooser.DefaultOptions = { map:             'map',
                                          onInitialized:    function() {} };
 
 
-
 Mapeed.AddressChooser.AddressKeys  = ['street', 'city', 'state', 'country', 'zip'],
 Mapeed.AddressChooser.AllKeys      = Mapeed.AddressChooser.AddressKeys.concat('lat', 'lng');
                                       
@@ -47,6 +46,10 @@ Mapeed.AddressChooser.AllKeys      = Mapeed.AddressChooser.AddressKeys.concat('l
  
 /** section: base
 *  new Mapeed.AddressChooser.Widget([options])
+*  - options (Hash): bla bla bla.
+*  
+*  Creates a new Mapeed.AddressChooser widget to add map based behavior to a regular address form.
+*  
 **/
 Mapeed.AddressChooser.Widget = function(options) {
   // Internal: Gets event to listen for an element. INPUT and SELECT are allowed

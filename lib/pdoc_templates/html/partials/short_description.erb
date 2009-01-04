@@ -1,7 +1,15 @@
 <li><h4 id="<%= dom_id(object) %>"><%= object.name %></h4>
   
   <% if object.is_a?(Documentation::Method) %>
-    <pre class="syntax"><code class="ebnf"><%= object.ebnf_expressions %></code></pre>
+    <%= method_synopsis(object) %>
+    <%= include "partials/parameters", :object => object %>
+  <% end %>
+  
+  <% unless object.aliases.empty? %>
+    <p class="alias aliases">Aliased as: <%= object.aliases.map { |a| auto_link(a, false) }.join(', ') %></p>
+  <% end %>
+  <% if object.alias? %>
+    <p class="alias alias-of">Alias for <%= auto_link(object.alias_of, false) %></p>
   <% end %>
   
 	<%= htmlize(object.description) %>

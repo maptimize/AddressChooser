@@ -6,7 +6,9 @@
   <span><%= d.type %></span>
   <%= d.full_name %>
 </h2>
-
+<p>
+  <%= d.description %>
+</p>
 
 <% # Is it a CLASS?  %>
 <% if @doc_instance.is_a?(Documentation::Klass) %>
@@ -60,11 +62,9 @@
 
 <% if d.is_a?(Documentation::Klass) && d.constructor %>
 <div class="section section-constructor">
-  <h3>Constructor</h3>
-  <p>
-    <pre id="<%= dom_id(d.constructor) %>" class="syntax"><code><%= d.constructor.ebnf_expressions %></code></pre>
-  </p>
-  
+  <h3>Constructor</h3>    
+  <pre id="<%= dom_id(d.constructor) %>" class="syntax"><code><%= d.constructor.ebnf_expressions.to_s.strip %></code></pre>
+  <%= include "partials/parameters", :object => d.constructor %>
   <p><%= htmlize(d.constructor.description) %></p>
 </div> <!-- .section -->
 <% end %>
