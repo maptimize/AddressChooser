@@ -26,6 +26,7 @@ Mapeed.AddressChooser.DefaultOptions = { map:             'map',
                                          city:            'city',
                                          state:           'state',
                                          country:         'country',
+                                         spinner:          false,
                                          icon:             null,
                                          auto:             true,
                                          delay:            300,
@@ -97,6 +98,11 @@ Mapeed.AddressChooser.AddressKeys  = ['street', 'city', 'state', 'country', 'zip
  *      <td>country</td>
  *      <td>country</td>
  *      <td>DOM id of country field</td>
+ *    </tr>
+ *    <tr>
+ *      <td>spinner</td>
+ *      <td>false</td>
+ *      <td>DOM id of a spinner element shown when a suggest search starts and hidden when a response is received</td>
  *    </tr>
  *    <tr>
  *      <td>icon</td>
@@ -180,7 +186,7 @@ Mapeed.AddressChooser.Widget = function(options) {
   // Internal: init callback when map is ready
   function init() {
     var options  = this.options,
-        allKeys  = Mapeed.AddressChooser.AddressKeys.concat('lat', 'lng');
+        allKeys  = Mapeed.AddressChooser.AddressKeys.concat('lat', 'lng', 'spinner');
     
     // Get html elements for read/write values
     for (var i = allKeys.length-1; i>=0; --i){
@@ -239,6 +245,8 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
    *  Removes a handler that was installed using addEventListener
    **/
   function updateMap(event, delay) {    
+    if (this.spinner) this.spinner.style.display = 'block';
+    
     // Fires addresschooser:suggests:started
     this.mapProxy.trigger(this.element, 'addresschooser:suggests:started');
     // Ask map proxy for getting placemarks
@@ -329,6 +337,8 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
       
       this.mapProxy.hidePlacemark();
     }
+    if (this.spinner) this.spinner.style.display = 'none';
+    
     // Fires addresschooser:suggests:found
     this.mapProxy.trigger(this.element, 'addresschooser:suggests:found', placemarks);
   }

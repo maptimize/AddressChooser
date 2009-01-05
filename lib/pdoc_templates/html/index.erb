@@ -39,6 +39,23 @@
 </div>
 <div class="legend">Address form enhanced by <b>Mapeed.AddressChooser</b></div>
 <br/>
+<pre>
+  <code class="javascript">// Create Mapeed.AddressChooser
+var widget = new Mapeed.AddressChooser.Widget({onInitialized: onInitialized, spinner: 'big_spinner'})
+
+// Customized your map when widget is ready
+function onInitialized(widget) {
+  // Add map control (zoom and pan)
+  widget.getMap().addControl(new GSmallMapControl());  
+
+  // Center map on selected address or on user location
+  widget.initMap();
+
+  // Focus street field
+  document.getElementById('street').focus();
+}</code>
+</pre>
+<div class="legend">Javascript code</div>
 
 <h1>Introduction</h1>
 <b>Mapeed.AddressChooser</b> is a Javascript script to create a nice address form for any websites that need to collect addresses. For example getting user's address, place's location or anything that can be localized on a map. This script just add behavior on HTML form, it does'nt geerate HTML markup and can be plugged on any existing forms.
@@ -75,5 +92,8 @@ Check out examples and documentation for API details.
 </ul>
 
 <script src="http://maps.google.com/jsapi?key=ABQIAAAAPvuQxAHKdvs2AzUcIgAydBSETxe3qBmLdxF0QQkLqemEKq7m_hQlfgsFv1oarKkV90vgnDaysupsXQ" type="text/javascript"></script>
-<script src="javascripts/address_chooser.js" type="text/javascript"></script>
+<script src="javascripts/addresschooser.js" type="text/javascript"></script>
 <script src="javascripts/demo.js" type="text/javascript"></script>
+<script>
+  //CodeHighlighter.init();
+</script>

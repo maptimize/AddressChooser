@@ -34,8 +34,8 @@
       Location search is sent to Google while you are typing (in fact when you stop typing for 300ms) and map displays automatically first result.
     <p>
     <p>
-      This version does not handle google suggestions. Check out examples with autocomplete based on 
-      <a href="with_prototype.html">Prototype</a> or  <a href="with_jquery.html">jQuery</a> to see how to add suggestions in autocomplete component.
+      This version does not handle google suggestions. Check out example with <a href="with_prototype.html">autocomplete</a> based on 
+      Prototype to see how to add suggestions in autocomplete component.
       Keep in mind that you do not need a framework to handle google suggestions.
     </p>
     
@@ -88,7 +88,7 @@
     document.getElementById('street').focus();
     document.getElementById('submit').disabled = true;
         
-    widget = new Mapeed.AddressChooser.Widget({onInitialized: onInitialized});
+    widget = new Mapeed.AddressChooser.Widget({onInitialized: onInitialized, spinner: 'big_spinner'});
 
     // If you want to customized your map, add code in onInitialized callback
     function onInitialized(widget) {
@@ -98,20 +98,16 @@
       // If input fields have values, it'll display current position on the map otherwise it'll center map on user location
       widget.initMap();
       
-      // Observe 'suggests:started' to display spinner and disable submit button
+      // Observe 'suggests:started' to disable submit button
       widget.addEventListener('suggests:started', function(widget) {
         // Enable submit button
         document.getElementById('submit').disabled = true;
-        // Remove spinner
-        document.getElementById('big_spinner').style.display = 'block';
       });
       
-      // Observe 'suggests:found' to hide spinner and enable submit button if a placemark has been found
+      // Observe 'suggests:found' to enable submit button if a placemark has been found
       widget.addEventListener('suggests:found', function(widget, placemarks) {
         // Disable submit button
         document.getElementById('submit').disabled = !placemarks || placemarks.length == 0;
-        // Remove spinner
-        document.getElementById('big_spinner').style.display = 'none';
       });
     }
     
