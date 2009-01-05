@@ -156,6 +156,27 @@ Mapeed.AddressChooser.Widget = function(options) {
     return destination;
   }
   
+  function updateMap(event, delay) {
+    // Do not handle keys like arrows, escape... just accept delete/backspace
+    if (event) {
+      var key = event.keyCode;
+      if (event.charCode || (key >0 && key < 47 && key != 8 && key != 46)) return;
+    }
+
+    // Needs to wait before updating the map
+    if (delay) {
+      var self = this;
+      // Clear existing timer
+      if (this.timeout) clearTimeout(this.timeout);
+
+      // Starts a new timer
+      this.timeout = setTimeout(function() {updateMap.call(self)}, delay);
+    }
+    else {
+      this.updateMap();
+    }
+  }
+  
   // Internal: init callback when map is ready
   function init() {
     var options  = this.options,
@@ -175,7 +196,7 @@ Mapeed.AddressChooser.Widget = function(options) {
     
     // Connect event listener for auto mode
     if (options.auto) {
-      var callback    = function(event) {this.updateMap(event, this.options.delay)},
+      var callback    = function(event) {updateMap.call(this, event, this.options.delay)},
           addressKeys = Mapeed.AddressChooser.AddressKeys;
       for (var i = addressKeys.length-1; i>=0; --i) {
         var k = addressKeys[i];
@@ -211,36 +232,17 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
   }
   
   /** section: base
-   *  Mapeed.AddressChooser.Widget#updateMap([event = null, delay = this.options.delay]) -> undefined
-   *  - event (Event): Key event if method is called by keyup event
-   *  - delay (Number): Delay in milliseconf before requiring placemarks to map proxy.
+   *  Mapeed.AddressChooser.Widget#updateMap() -> undefined
    *  
-   *  fires addresschooser:suggests:started 
+   *  fires addresschooser:suggests:started, addresschooser:suggests:found
    *  
    *  Removes a handler that was installed using addEventListener
    **/
   function updateMap(event, delay) {    
-    // Called by keyup event
-    if (event) {
-      // Do not handle keys like arrows, escape... just accept delete/backspace
-      var key = event.keyCode;
-      if (event.charCode || (key >0 && key < 47 && key != 8 && key != 46)) return;
-    }
-    // Needs to wait before updating the map
-    if (delay) {
-      var self = this;
-      // Clear existing timer
-      if (this.timeout) clearTimeout(this.timeout);
-      
-      // Starts a new timer
-      this.timeout = setTimeout(function() {self.updateMap()}, delay);
-    }
-    else {
-      // Fires addresschooser:suggests:started
-      this.mapProxy.trigger(this.element, 'addresschooser:suggests:started');
-      // Ask map proxy for getting placemarks
-      this.mapProxy.getPlacemarks(this.getCurrentAddress(), _placemarksReceived, this);
-    }
+    // Fires addresschooser:suggests:started
+    this.mapProxy.trigger(this.element, 'addresschooser:suggests:started');
+    // Ask map proxy for getting placemarks
+    this.mapProxy.getPlacemarks(this.getCurrentAddress(), _placemarksReceived, this);
   }
   
   /** section: base
@@ -344,7 +346,7 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     this.lat.value = lat;
     this.lng.value = lng;
   }
-  
+    
   /** section: base
    *  Mapeed.AddressChooser.Widget#getCity(placemark) -> String
    *  - placemark (Object): Placemark object depending on mapping system.
