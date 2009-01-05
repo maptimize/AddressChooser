@@ -8,7 +8,7 @@ Checkout <a href="http://addresschooser.mapeed.com/">http://addresschooser.mapee
 <br/>
 <center>
 <a href="http://addresschooser.mapeed.com/">
-![preview](http://addresschooser.mapeed.com/doc/images/screenshot.png) 
+<img src="http://addresschooser.mapeed.com/doc/images/screenshot.png"/>
 </a>
 </center>
 <br/>
