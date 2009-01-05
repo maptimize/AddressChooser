@@ -5,4 +5,10 @@ Mapeed.AddressChooser is a Javascript script to create a nice address form for a
 
 
 Checkout <a href="http://addresschooser.mapeed.com/">http://addresschooser.mapeed.com</a> for more details
-![preview](http://addresschooser.mapeed.com/doc/images/mixin.png) 
+<br/>
+<center>
+<a href="http://addresschooser.mapeed.com/">
+![preview](http://addresschooser.mapeed.com/doc/images/screenshot.png) 
+</a>
+</center>
+<br/>
