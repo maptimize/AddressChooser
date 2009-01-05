@@ -135,14 +135,14 @@ label {
 }
 
 .spinner {
-  background: url(spinner.gif) no-repeat right 4px;
+  background: url(../images/spinner.gif) no-repeat right 4px;
 }
 
 #big_spinner {
   position:absolute;
   width: 20em;
   height: 20em;
-  background: #F2F2F2 url(bigSpinner.gif) no-repeat center center;
+  background: #F2F2F2 url(../images/bigSpinner.gif) no-repeat center center;
   z-index: 10000;
   top: 1px;
   left: 1px;
