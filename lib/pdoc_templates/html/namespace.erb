@@ -7,7 +7,7 @@
   <%= d.full_name %>
 </h2>
 <p>
-  <%= d.description %>
+  <%= htmlize(d.description) %>
 </p>
 
 <% # Is it a CLASS?  %>
@@ -18,7 +18,7 @@
 	  <h3>Superclass</h3>
 	  <p><%= auto_link(d.superklass, false) %></p>
 	</div> <!-- .section -->		
-	<% end %>
+	<% end %> 
 
 	<% unless @doc_instance.subklasses.empty? %>
 	<div class="section section-subclasses">

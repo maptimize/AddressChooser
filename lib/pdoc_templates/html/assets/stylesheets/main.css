@@ -473,3 +473,17 @@ ul.method-details-list pre {
 .section-constructor {
   padding-left:70px !important;
 }
+
+
+/* Table options*/
+table.options {
+  font-family:Verdana,sans-serif;
+  font-size:13px;
+}
+table.options th {
+  background-color: #DDDDDD;
+}  
+table.options td {
+  background-color: #F5F5F5;
+  vertical-align: top
+}

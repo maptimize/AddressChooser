@@ -5,8 +5,6 @@ require 'rake/rdoctask'
 desc "Generates documentation"
 task :doc do
   require 'lib/pdoc/lib/pdoc'
-  # TEMPORARY: FIX TEMPLATE PATH
-  require 'lib/website'
   require 'fileutils'
   require 'tempfile'
   
