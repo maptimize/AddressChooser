@@ -446,6 +446,6 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     
     // Events
     addEventListener:       addEventListener,
-    removeEventListener:    _delegateToMapProxy('removeEventListener'),
+    removeEventListener:    _delegateToMapProxy('removeEventListener')
   }
 })();

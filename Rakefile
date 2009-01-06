@@ -3,7 +3,7 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 
 desc "Generates documentation"
-task :doc do
+task :doc => :dist do
   require 'lib/pdoc/lib/pdoc'
   require 'fileutils'
   require 'tempfile'
@@ -20,6 +20,9 @@ task :doc do
     temp << "\n" << File.read(f)
   end
   temp.rewind
+  
+  FileUtils.cp(DIST_OUTPUT, File.join(templates_directory, 'html', 'assets', 'javascripts'))
+  FileUtils.cp(PACKED_DIST_OUTPUT, File.join(templates_directory, 'html', 'assets', 'javascripts'))
   
   ROOT_DIR = ENV['ROOT_DIR'] || FileUtils.pwd
   PDoc::Runner.new(temp.path, :output => output_directory, :templates => templates_directory).run
