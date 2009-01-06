@@ -23,7 +23,7 @@ Mapeed.Proxy = {};
   *  - callback (Function): callback called when map is ready.
   *  - context (Object): calling context.
   *  
-  *  Creates a new Mapeed.Proxy.GoogleMap object used by Mapeed.AddressChooser.Wodget. 
+  *  Creates a new Mapeed.Proxy.GoogleMap object used by Mapeed.AddressChooser.Widget. 
   *  Calls _callback_ on _context_ when map is initiliazed and ready to use.
   *  By default map displays the entire world but this can be changed when callback is called.
   *  
@@ -98,7 +98,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   /**  
    *  Mapeed.Proxy.GoogleMap#getPlacemarks(address, callback, context) -> null
    *  - address (String): address to search
-   *  - callback (Function): callback called when search is done. Callback will received a placemarks array as first argument
+   *  - callback (Function): callback called when search is done. Callback will receive a placemarks array as first argument
    *  - context (Object): calling context
    *  
    *  Looks for placemarks for a specific address, results are retreived through a callback: function(placemarks) called
@@ -172,7 +172,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
    *  Mapeed.Proxy.GoogleMap#getLat(placemark) -> Number
    *  - placemark (Object): object representing Google Map placemark (get by calling getPlacemarks)
    *  
-   *  Returns latitude a placemark.
+   *  Returns latitude of a placemark.
    **/
   function getLat(placemark) {
     return placemark.Point.coordinates[1];
@@ -182,7 +182,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
    *  Mapeed.Proxy.GoogleMap#getLng(placemark) -> Number
    *  - placemark (Object): object representing Google Map placemark (get by calling getPlacemarks)
    *  
-   *  Returns longitude a placemark.
+   *  Returns longitude of a placemark.
    **/
   function getLng(placemark) {
     return placemark.Point.coordinates[0];
@@ -202,7 +202,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
    *  Mapeed.Proxy.GoogleMap#showPlacemark(tagName[, showAddress = null, callback = null, context = null ]) -> undefined
    *  - placemark (Object): object representing Google Map placemark (get by calling getPlacemarks).
    *  - showAddress (Boolean): if true, displays address on the map inside an info window.
-   *  - callback (Function): callback called when marker has benn dragged. Callback will received lat and lng as arguments.
+   *  - callback (Function): callback called when marker has been dragged. Callback will received lat and lng as arguments.
    *  - context (Object): calling context for callback
    *  
    *  Displays placemark on the map.
@@ -262,7 +262,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   /** 
    *  Mapeed.Proxy.GoogleMap#hidePlacemark() -> undefined
    *  
-   *  Hides placemark from the map, close info window if need be
+   *  Hides placemark from the map, close info window if needed
    **/
   function hidePlacemark() {
     if (this.marker) {
@@ -307,7 +307,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
 
   // Parses placemark object as Google do not provide any API for that.
-  // Information is inside placemark subfield but depends on accuracy, so we need to parse all tree 
+  // Information is inside placemark subfield but depends on accuracy, so we need to parse all the tree 
   // to find information
   // Returns null if not found
   function _getPlacemarkAttribute(placemark, field) {
