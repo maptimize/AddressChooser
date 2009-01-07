@@ -52,7 +52,8 @@ Mapeed.Proxy.GoogleMap = function(element, callback, context) {
     }
   }
   else {
-    createMap();
+    // Defer createMap to be executed after constructor call
+    setTimeout(createMap, 10);
   }
 };
 
