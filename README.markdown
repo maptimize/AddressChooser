@@ -17,3 +17,5 @@ If you have ruby and rake installed you have to tasks:
 * rake doc to generate documentation locally (do not forget to do: git submodule init and git submodule update before to get pdoc)
 
 * rake dist to generate uncompressed and packed version of the component in dist library (for packed version you need java)
+
+For debug/suggest tickets, go on lighthouse http://addresschooser.lighthouseapp.com/

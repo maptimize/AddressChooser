@@ -268,7 +268,7 @@ Mapeed.AddressChooser.Widget.prototype = (function() {
     else {
       var address = this.getCurrentAddress();
       if (address.length == 0) {
-        this.centerOnClientLocation();
+        this.centerOnClientLocation(zoom || 5);
       } else {
         this.updateMap();
       }
