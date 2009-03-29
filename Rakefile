@@ -4,7 +4,15 @@ require 'rake/rdoctask'
 
 desc "Generates documentation"
 task :doc => :dist do
-  require 'lib/pdoc/lib/pdoc'
+  pdoc = 'lib/pdoc/lib/pdoc'
+  unless File.exists?(pdoc)
+    puts "\nYou'll need PDoc to generate the documentation. Just run:\n\n"
+    puts " $ git submodule init lib/pdoc"
+    puts " $ git submodule update lib/pdoc"
+    puts "\nand you should be all set.\n\n"
+  end
+
+  require pdoc
   require 'fileutils'
   require 'tempfile'
   
