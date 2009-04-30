@@ -44,7 +44,7 @@
   var widget = new Maptimize.AddressChooser.Widget(
     { onInitialized: function(widget) {
         // Add small map control (zoom and pan)
-        widget.getMap().addControl(new GSmallMapControl());  
+        widget.getMap().setUIToDefault();
 
         // Center map on selected address or on user location
         widget.initMap();
