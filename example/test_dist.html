@@ -15,18 +15,8 @@
 <body>
   <div id="address_chooser">
     <form id='form' onsubmit='displayAddress(); return false;'>
-      <label for='street'>Street</label>
+      <label for='street'>Address</label>
       <input type='text' name='street' id='street' class='text'/>
-    
-      <label for='state'>State</label>
-      <input type='text' name='state' id='state' class='text'/>
-    
-      <label for='country'>Country</label>
-      <select  name='country' id='country'>
-        <option name=''>Select your country</option>
-        <option name='France'>France</option>
-        <option name='USA'>USA</option>
-      </select>
     
       <input type='submit' value='Save' id='submit'/>
     
@@ -40,7 +30,33 @@
   </div>
   
   <script type='text/javascript'>
-    widget = new Maptimize.AddressChooser.Widget();
+    // Focus first field
+    document.getElementById('street').focus();
+    document.getElementById('submit').disabled = true;
+        
+    widget = new Maptimize.AddressChooser.Widget({onInitialized: onInitialized, spinner: 'big_spinner'});
+
+    // If you want to customized your map, add code in onInitialized callback
+    function onInitialized(widget) {
+      // Add default controls
+      widget.getMap().setUIToDefault();
+      
+      // If input fields have values, it'll display current position on the map otherwise it'll center map on user location
+      widget.initMap();
+      
+      // Observe 'suggests:started' to disable submit button
+      widget.addEventListener('suggests:started', function(widget) {
+        // Enable submit button
+        document.getElementById('submit').disabled = true;
+      });
+      
+      // Observe 'suggests:found' to enable submit button if a placemark has been found
+      widget.addEventListener('suggests:found', function(widget, placemarks) {
+        // Disable submit button
+        document.getElementById('submit').disabled = !placemarks || placemarks.length == 0;
+      });
+    }
+    
   </script>
 </body>
 </html>
