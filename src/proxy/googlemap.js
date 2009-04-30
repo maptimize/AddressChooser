@@ -1,15 +1,15 @@
 // Namespace
-if (typeof Mapeed == 'undefined') {
-  Mapeed = {};
+if (typeof Maptimize == 'undefined') {
+  Maptimize = {};
 }
-Mapeed.Proxy = {};
+Maptimize.Proxy = {};
 
 /**
- * Mapeed.Proxy
+ * Maptimize.Proxy
 **/
 
 /** section: base
- *  class Mapeed.Proxy.GoogleMap
+ *  class Maptimize.Proxy.GoogleMap
  *
  * Proxy class to handle Google Map API. As any map proxy for AddressChooser, it must implement public methods (some methods can be empty
  * but has to be implemented)
@@ -18,19 +18,19 @@ Mapeed.Proxy = {};
  **/
 
  /** section: base
-  *  new Mapeed.Proxy.GoogleMap(element, callback, context)
+  *  new Maptimize.Proxy.GoogleMap(element, callback, context)
   *  - element (Element): element used to create GMap2 object.
   *  - callback (Function): callback called when map is ready.
   *  - context (Object): calling context.
   *  
-  *  Creates a new Mapeed.Proxy.GoogleMap object used by Mapeed.AddressChooser.Widget. 
+  *  Creates a new Maptimize.Proxy.GoogleMap object used by Maptimize.AddressChooser.Widget. 
   *  Calls _callback_ on _context_ when map is initiliazed and ready to use.
   *  By default map displays the entire world but this can be changed when callback is called.
   *  
   *  Google Map script must be included before this script.
   **/
   
-Mapeed.Proxy.GoogleMap = function(element, callback, context) {
+Maptimize.Proxy.GoogleMap = function(element, callback, context) {
   var self = this;
   
   function createMap() {
@@ -57,9 +57,9 @@ Mapeed.Proxy.GoogleMap = function(element, callback, context) {
   }
 };
 
-Mapeed.Proxy.GoogleMap.prototype = (function() {
+Maptimize.Proxy.GoogleMap.prototype = (function() {
   /** 
-   *  Mapeed.Proxy.GoogleMap#addEventListener(source, event, object, method) -> GEventListener
+   *  Maptimize.Proxy.GoogleMap#addEventListener(source, event, object, method) -> GEventListener
    *  - source (Object): source object.
    *  - event (String): event name.
    *  - object (Object): object used for calling method.
@@ -74,7 +74,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
   
   /** 
-   *  Mapeed.Proxy.GoogleMap#removeEventListener(handle) -> undefined
+   *  Maptimize.Proxy.GoogleMap#removeEventListener(handle) -> undefined
    *  - handle (Object): handle get by addEventListener.
    *  
    *  Removes a handler that was installed by addEventListener.
@@ -85,7 +85,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
  
  
   /** 
-   *  Mapeed.Proxy.GoogleMap#trigger(source, event [, args]) -> undefined
+   *  Maptimize.Proxy.GoogleMap#trigger(source, event [, args]) -> undefined
    *  - source (Object): source object
    *  - event (String): event name
    *  
@@ -97,7 +97,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
   
   /**  
-   *  Mapeed.Proxy.GoogleMap#getPlacemarks(address, callback, context) -> null
+   *  Maptimize.Proxy.GoogleMap#getPlacemarks(address, callback, context) -> null
    *  - address (String): address to search
    *  - callback (Function): callback called when search is done. Callback will receive a placemarks array as first argument
    *  - context (Object): calling context
@@ -111,7 +111,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
    
   /** 
-   *  Mapeed.Proxy.GoogleMap#getMap() -> GMap2
+   *  Maptimize.Proxy.GoogleMap#getMap() -> GMap2
    *  
    *  Returns Google Map object
    **/
@@ -120,7 +120,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   } 
   
   /** 
-   *  Mapeed.Proxy.GoogleMap#getAddress(placemark) -> String
+   *  Maptimize.Proxy.GoogleMap#getAddress(placemark) -> String
    *  - placemark (Object): object representing Google Map placemark (get by calling getPlacemarks)
    *  
    *  Returns full address of a placemark.
@@ -130,7 +130,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
    
   /** 
-   *  Mapeed.Proxy.GoogleMap#getCity(placemark) -> String
+   *  Maptimize.Proxy.GoogleMap#getCity(placemark) -> String
    *  - placemark (Object): object representing Google Map placemark (get by calling getPlacemarks)
    *  
    *  Returns city name of a placemark. Returns an empty string if not found.
@@ -140,7 +140,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
 
   /** 
-   *  Mapeed.Proxy.GoogleMap#getCountry(placemark) -> String
+   *  Maptimize.Proxy.GoogleMap#getCountry(placemark) -> String
    *  - placemark (Object): object representing Google Map placemark (get by calling getPlacemarks)
    *  
    *  Returns country name of a placemark. Returns an empty string if not found.
@@ -150,7 +150,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
     
   /** 
-   *  Mapeed.Proxy.GoogleMap#getZIP(placemark) -> String
+   *  Maptimize.Proxy.GoogleMap#getZIP(placemark) -> String
    *  - placemark (Object): object representing Google Map placemark (get by calling getPlacemarks)
    *  
    *  Returns ZIP (postal code) name of a placemark. Returns an empty string if not found.
@@ -160,7 +160,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
   
   /** 
-   *  Mapeed.Proxy.GoogleMap#getStreet(placemark) -> String
+   *  Maptimize.Proxy.GoogleMap#getStreet(placemark) -> String
    *  - placemark (Object): object representing Google Map placemark (get by calling getPlacemarks)
    *  
    *  Returns street (address without zip, city, country) of a placemark. Returns an empty string if not found.
@@ -170,7 +170,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
  
   /** 
-   *  Mapeed.Proxy.GoogleMap#getLat(placemark) -> Number
+   *  Maptimize.Proxy.GoogleMap#getLat(placemark) -> Number
    *  - placemark (Object): object representing Google Map placemark (get by calling getPlacemarks)
    *  
    *  Returns latitude of a placemark.
@@ -180,7 +180,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
    
   /** 
-   *  Mapeed.Proxy.GoogleMap#getLng(placemark) -> Number
+   *  Maptimize.Proxy.GoogleMap#getLng(placemark) -> Number
    *  - placemark (Object): object representing Google Map placemark (get by calling getPlacemarks)
    *  
    *  Returns longitude of a placemark.
@@ -190,7 +190,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
    
   /** 
-   *  Mapeed.Proxy.GoogleMap#setIcon(icon) -> undefined
+   *  Maptimize.Proxy.GoogleMap#setIcon(icon) -> undefined
    *  - icon (GIcon): marker icon
    *  
    *  Sets icon for marker displayed on the map. Must be called before displaying any marker on the map.
@@ -200,7 +200,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
   
   /** 
-   *  Mapeed.Proxy.GoogleMap#showPlacemark(tagName[, showAddress = null, callback = null, context = null ]) -> undefined
+   *  Maptimize.Proxy.GoogleMap#showPlacemark(tagName[, showAddress = null, callback = null, context = null ]) -> undefined
    *  - placemark (Object): object representing Google Map placemark (get by calling getPlacemarks).
    *  - showAddress (Boolean): if true, displays address on the map inside an info window.
    *  - callback (Function): callback called when marker has been dragged. Callback will received lat and lng as arguments.
@@ -222,7 +222,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
   
   /** 
-   *  Mapeed.Proxy.GoogleMap#showMarker(lat, lng, zoom[, address = null, callback = null, context = null]) -> undefined
+   *  Maptimize.Proxy.GoogleMap#showMarker(lat, lng, zoom[, address = null, callback = null, context = null]) -> undefined
    *  - lat (Float): marker's latitude.
    *  - lng (Float): marker's longitude.
    *  - zoom (Integer): map zoom.
@@ -261,7 +261,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
   
   /** 
-   *  Mapeed.Proxy.GoogleMap#hidePlacemark() -> undefined
+   *  Maptimize.Proxy.GoogleMap#hidePlacemark() -> undefined
    *  
    *  Hides placemark from the map, close info window if needed
    **/
@@ -273,7 +273,7 @@ Mapeed.Proxy.GoogleMap.prototype = (function() {
   }
   
   /** 
-   *  Mapeed.Proxy.GoogleMap#centerOnClientLocation([zoom]) -> undefined
+   *  Maptimize.Proxy.GoogleMap#centerOnClientLocation([zoom]) -> undefined
    *  - zoom (Integer): map zoom, default 8
    *  
    *  Center map on user location (based on its IP) if available
