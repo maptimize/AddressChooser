@@ -156,7 +156,7 @@ Maptimize.Proxy.GoogleMap.prototype = (function() {
    *  Returns ZIP (postal code) name of a placemark. Returns an empty string if not found.
    **/
   function getZIP(placemark) {
-    return _getPlacemarkAttribute(placemark, 'PostalCodeName');
+    return _getPlacemarkAttribute(placemark, 'PostalCodeNumber');
   }
   
   /** 
