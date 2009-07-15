@@ -318,7 +318,10 @@ Maptimize.Proxy.GoogleMap.prototype = (function() {
       }
       else {
         if (typeof placemark[f] == 'object') {
-          return _getPlacemarkAttribute(placemark[f], field);
+          var attribute = _getPlacemarkAttribute(placemark[f], field);
+          if (attribute != '') {
+            return attribute;
+          }
         }
       }
     }
