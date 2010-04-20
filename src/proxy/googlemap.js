@@ -289,6 +289,7 @@ Maptimize.Proxy.GoogleMap.prototype = (function() {
   function _onGeocodingCompleted(response, callback, context) {
     // Placemark(s) found
     if (response.Status.code == 200) {
+      console.log(response.Placemark);
       callback.call(context, response.Placemark);
     }
     // Placemark not found
